@@ -19,20 +19,20 @@ class MovieTableCell: UITableViewCell {
     
     var movie: Movie! {
         didSet {
-            guard let url = URL(string: movie.thumb ?? "") else { return }
+            guard let thumbImagePath = movie.thumb else { return }
             
-            if let image = cache.object(forKey: url.absoluteString as NSString) {
+            movieTitle.text = movie.title
+            movieSimpleInfo.text = movie.simpleTableInfo
+            movieOpeningDate.text = movie.openingDate
+            movieGradeImage.image = UIImage(named: movie.movieGradeText)
+            
+            if let image = cache.object(forKey: thumbImagePath as NSString) {
                 print("cacheImage")
                 self.movieThumbImage.image = image
             } else {
-                movieTitle.text = movie.title
-                movieSimpleInfo.text = movie.simpleTableInfo
-                movieOpeningDate.text = movie.openingDate
-                movieGradeImage.image = UIImage(named: movie.movieGradeText)
+                print("Loading image with path:", thumbImagePath)
                 
-                print("Loading image with url:", movie.thumb ?? "")
-                
-                Manager.downloadImage(path: movie.thumb ?? "") { (data, error) in
+                Manager.downloadImage(path: thumbImagePath) { (data, error) in
                     print("Finished download image data:", data ?? "")
                     
                     guard let data = data else {
@@ -41,7 +41,7 @@ class MovieTableCell: UITableViewCell {
                     
                     DispatchQueue.main.async {
                         if let movieImage = UIImage(data: data) {
-                            self.cache.setObject(movieImage, forKey: url.absoluteString as NSString)
+                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
                             self.movieThumbImage.image = movieImage
                         }
                     }

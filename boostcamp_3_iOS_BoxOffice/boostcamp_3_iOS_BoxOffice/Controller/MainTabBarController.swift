@@ -19,9 +19,11 @@ class MainTabBarController: UITabBarController {
     //MARK:- Setup Functions
     
     func setupViewControllers() {
+        let flowLayout = UICollectionViewFlowLayout()
+        
         viewControllers = [
             generateNavigationController(for: MovieTableVC(), title: "Table", image: #imageLiteral(resourceName: "ic_list")),
-            generateNavigationController(for: MovieCollectionVC(), title: "Collection", image: #imageLiteral(resourceName: "ic_collection"))
+            generateNavigationController(for: MovieCollectionVC(collectionViewLayout: flowLayout), title: "Collection", image: #imageLiteral(resourceName: "ic_collection"))
         ]
     }
     
