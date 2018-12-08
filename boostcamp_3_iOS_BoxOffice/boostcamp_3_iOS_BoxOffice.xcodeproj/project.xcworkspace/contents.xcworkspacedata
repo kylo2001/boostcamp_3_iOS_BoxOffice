@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:boostcamp_3_iOS_BoxOffice.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
