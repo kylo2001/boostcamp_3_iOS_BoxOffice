@@ -107,4 +107,15 @@ class MovieTableVC: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didSelectRowAt")
+        let movieDetailInfoTableVC = MovieDetailInfoTableVC()
+        
+        let movie = movies[indexPath.item]
+        
+        movieDetailInfoTableVC.movieId = movie.movieId
+        
+        self.navigationController?.pushViewController(movieDetailInfoTableVC, animated: true)
+    }
 }
