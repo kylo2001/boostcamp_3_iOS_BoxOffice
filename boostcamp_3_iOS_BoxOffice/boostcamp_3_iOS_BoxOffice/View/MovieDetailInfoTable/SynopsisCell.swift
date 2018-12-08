@@ -12,6 +12,12 @@ class SynopsisCell: UITableViewCell {
     
     @IBOutlet weak var synopsisTextView: UITextView!
     
+    var movie: Movie! {
+        didSet{
+            self.synopsisTextView.text = movie.synopsis
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.synopsisTextView.isScrollEnabled = false

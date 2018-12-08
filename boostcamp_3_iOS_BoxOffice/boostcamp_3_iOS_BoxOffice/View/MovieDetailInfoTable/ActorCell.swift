@@ -13,6 +13,13 @@ class ActorCell: UITableViewCell {
     @IBOutlet weak var directorName: UILabel!
     @IBOutlet weak var actorName: UILabel!
     
+    var movie: Movie! {
+        didSet{
+            self.directorName.text = movie.director
+            self.actorName.text = movie.actor
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

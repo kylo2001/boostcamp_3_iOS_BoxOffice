@@ -18,6 +18,9 @@
 		DB5EEC6A21BBC10400659AB5 /* ActorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6921BBC10400659AB5 /* ActorCell.swift */; };
 		DB5EEC6C21BBC10E00659AB5 /* FirstCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6B21BBC10E00659AB5 /* FirstCommentCell.swift */; };
 		DB5EEC6E21BBC11600659AB5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6D21BBC11600659AB5 /* CommentCell.swift */; };
+		DB5EEC7021BC054E00659AB5 /* MovieDetailInfoTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6F21BC054E00659AB5 /* MovieDetailInfoTableVC.swift */; };
+		DB5EEC7221BC073200659AB5 /* FullScreenImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC7121BC073200659AB5 /* FullScreenImageVC.swift */; };
+		DB5EEC7421BC324C00659AB5 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC7321BC324C00659AB5 /* Double+.swift */; };
 		DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */; };
 		DB78912121BACE2E0063DCE5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78912021BACE2E0063DCE5 /* ViewController.swift */; };
 		DB78912421BACE2E0063DCE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB78912221BACE2E0063DCE5 /* Main.storyboard */; };
@@ -51,6 +54,9 @@
 		DB5EEC6921BBC10400659AB5 /* ActorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCell.swift; sourceTree = "<group>"; };
 		DB5EEC6B21BBC10E00659AB5 /* FirstCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCommentCell.swift; sourceTree = "<group>"; };
 		DB5EEC6D21BBC11600659AB5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		DB5EEC6F21BC054E00659AB5 /* MovieDetailInfoTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailInfoTableVC.swift; sourceTree = "<group>"; };
+		DB5EEC7121BC073200659AB5 /* FullScreenImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageVC.swift; sourceTree = "<group>"; };
+		DB5EEC7321BC324C00659AB5 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		DB78911B21BACE2E0063DCE5 /* boostcamp_3_iOS_BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = boostcamp_3_iOS_BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB78912021BACE2E0063DCE5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +201,8 @@
 				DB78914321BB06590063DCE5 /* MainTabBarController.swift */,
 				DB78914721BB07350063DCE5 /* MovieTableVC.swift */,
 				DB78914521BB07270063DCE5 /* MovieCollectionVC.swift */,
+				DB5EEC6F21BC054E00659AB5 /* MovieDetailInfoTableVC.swift */,
+				DB5EEC7121BC073200659AB5 /* FullScreenImageVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -214,6 +222,7 @@
 			children = (
 				DB78915121BB0D7C0063DCE5 /* UIView+.swift */,
 				DB78915621BB15350063DCE5 /* UIViewController+.swift */,
+				DB5EEC7321BC324C00659AB5 /* Double+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -309,9 +318,11 @@
 				DB78913B21BAF29F0063DCE5 /* Movies.swift in Sources */,
 				DB78914421BB06590063DCE5 /* MainTabBarController.swift in Sources */,
 				DB5EEC6C21BBC10E00659AB5 /* FirstCommentCell.swift in Sources */,
+				DB5EEC7021BC054E00659AB5 /* MovieDetailInfoTableVC.swift in Sources */,
 				DB78912121BACE2E0063DCE5 /* ViewController.swift in Sources */,
 				DB78913F21BAF7020063DCE5 /* Comment.swift in Sources */,
 				DB78913621BAEE050063DCE5 /* Movie.swift in Sources */,
+				DB5EEC7421BC324C00659AB5 /* Double+.swift in Sources */,
 				DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */,
 				DB78915521BB11680063DCE5 /* Manager.swift in Sources */,
 				DB5EEC5721BBB4CA00659AB5 /* Sort.swift in Sources */,
@@ -325,6 +336,7 @@
 				DB78913D21BAF2AC0063DCE5 /* Comments.swift in Sources */,
 				DB5EEC6621BBC0F300659AB5 /* MainInfoCell.swift in Sources */,
 				DB78914F21BB0CA30063DCE5 /* MovieTableCell.swift in Sources */,
+				DB5EEC7221BC073200659AB5 /* FullScreenImageVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -127,18 +127,18 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         return 0.0
     }
     
-//    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard let storyboard = self.storyboard else { return }
-//        guard let detailMovieTableVC = storyboard.instantiateViewController(withIdentifier: "detailMovieTableVC") as? DetailMovieTableVC else { return }
-//
-//        guard let movies = self.movies else { return }
-//
-//        let movie = movies[indexPath.row]
-//
-//        detailMovieTableVC.movieId = movie.movieId
-//
-//        self.navigationController?.pushViewController(detailMovieTableVC, animated: true)
-//    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       
+        guard let movieDetailInfoTableVC = UITableViewController() as? MovieDetailInfoTableVC else {
+            return
+        }
+
+        let movie = movies[indexPath.item]
+
+        movieDetailInfoTableVC.movieId = movie.movieId
+
+        self.navigationController?.pushViewController(movieDetailInfoTableVC, animated: true)
+    }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         DispatchQueue.main.async {
