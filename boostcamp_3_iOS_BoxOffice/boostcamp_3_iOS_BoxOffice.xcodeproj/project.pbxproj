@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB5EEC5721BBB4CA00659AB5 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC5621BBB4CA00659AB5 /* Sort.swift */; };
+		DB5EEC5921BBBB0000659AB5 /* MainInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC5821BBBB0000659AB5 /* MainInfoCell.xib */; };
+		DB5EEC5E21BBC06D00659AB5 /* SynopsisCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC5D21BBC06D00659AB5 /* SynopsisCell.xib */; };
+		DB5EEC6021BBC08100659AB5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC5F21BBC08100659AB5 /* CommentCell.xib */; };
+		DB5EEC6221BBC08E00659AB5 /* FirstCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC6121BBC08E00659AB5 /* FirstCommentCell.xib */; };
+		DB5EEC6421BBC09B00659AB5 /* ActorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC6321BBC09B00659AB5 /* ActorCell.xib */; };
+		DB5EEC6621BBC0F300659AB5 /* MainInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6521BBC0F300659AB5 /* MainInfoCell.swift */; };
+		DB5EEC6821BBC0FB00659AB5 /* SynopsisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6721BBC0FB00659AB5 /* SynopsisCell.swift */; };
+		DB5EEC6A21BBC10400659AB5 /* ActorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6921BBC10400659AB5 /* ActorCell.swift */; };
+		DB5EEC6C21BBC10E00659AB5 /* FirstCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6B21BBC10E00659AB5 /* FirstCommentCell.swift */; };
+		DB5EEC6E21BBC11600659AB5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6D21BBC11600659AB5 /* CommentCell.swift */; };
 		DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */; };
 		DB78912121BACE2E0063DCE5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78912021BACE2E0063DCE5 /* ViewController.swift */; };
 		DB78912421BACE2E0063DCE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB78912221BACE2E0063DCE5 /* Main.storyboard */; };
@@ -29,6 +40,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB5EEC5621BBB4CA00659AB5 /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
+		DB5EEC5821BBBB0000659AB5 /* MainInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainInfoCell.xib; sourceTree = "<group>"; };
+		DB5EEC5D21BBC06D00659AB5 /* SynopsisCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SynopsisCell.xib; sourceTree = "<group>"; };
+		DB5EEC5F21BBC08100659AB5 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		DB5EEC6121BBC08E00659AB5 /* FirstCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FirstCommentCell.xib; sourceTree = "<group>"; };
+		DB5EEC6321BBC09B00659AB5 /* ActorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActorCell.xib; sourceTree = "<group>"; };
+		DB5EEC6521BBC0F300659AB5 /* MainInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInfoCell.swift; sourceTree = "<group>"; };
+		DB5EEC6721BBC0FB00659AB5 /* SynopsisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynopsisCell.swift; sourceTree = "<group>"; };
+		DB5EEC6921BBC10400659AB5 /* ActorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCell.swift; sourceTree = "<group>"; };
+		DB5EEC6B21BBC10E00659AB5 /* FirstCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCommentCell.swift; sourceTree = "<group>"; };
+		DB5EEC6D21BBC11600659AB5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		DB78911B21BACE2E0063DCE5 /* boostcamp_3_iOS_BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = boostcamp_3_iOS_BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB78912021BACE2E0063DCE5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +85,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB5EEC5521BBB4BE00659AB5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				DB5EEC5621BBB4CA00659AB5 /* Sort.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		DB5EEC5A21BBBBD900659AB5 /* MovieDetailInfoTable */ = {
+			isa = PBXGroup;
+			children = (
+				DB5EEC5821BBBB0000659AB5 /* MainInfoCell.xib */,
+				DB5EEC6521BBC0F300659AB5 /* MainInfoCell.swift */,
+				DB5EEC5D21BBC06D00659AB5 /* SynopsisCell.xib */,
+				DB5EEC6721BBC0FB00659AB5 /* SynopsisCell.swift */,
+				DB5EEC6321BBC09B00659AB5 /* ActorCell.xib */,
+				DB5EEC6921BBC10400659AB5 /* ActorCell.swift */,
+				DB5EEC6121BBC08E00659AB5 /* FirstCommentCell.xib */,
+				DB5EEC6B21BBC10E00659AB5 /* FirstCommentCell.swift */,
+				DB5EEC5F21BBC08100659AB5 /* CommentCell.xib */,
+				DB5EEC6D21BBC11600659AB5 /* CommentCell.swift */,
+			);
+			path = MovieDetailInfoTable;
+			sourceTree = "<group>";
+		};
+		DB5EEC5B21BBBBDC00659AB5 /* MovieCollection */ = {
+			isa = PBXGroup;
+			children = (
+				DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */,
+				DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */,
+			);
+			path = MovieCollection;
+			sourceTree = "<group>";
+		};
+		DB5EEC5C21BBBBDE00659AB5 /* MovieTable */ = {
+			isa = PBXGroup;
+			children = (
+				DB78914C21BB09A80063DCE5 /* MovieTableCell.xib */,
+				DB78914E21BB0CA30063DCE5 /* MovieTableCell.swift */,
+			);
+			path = MovieTable;
+			sourceTree = "<group>";
+		};
 		DB78911221BACE2E0063DCE5 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +172,7 @@
 		DB78913421BAED570063DCE5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB5EEC5521BBB4BE00659AB5 /* Data */,
 				DB78915321BB114D0063DCE5 /* Network */,
 			);
 			path = Model;
@@ -136,10 +202,9 @@
 		DB78914921BB091A0063DCE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DB78914C21BB09A80063DCE5 /* MovieTableCell.xib */,
-				DB78914E21BB0CA30063DCE5 /* MovieTableCell.swift */,
-				DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */,
-				DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */,
+				DB5EEC5C21BBBBDE00659AB5 /* MovieTable */,
+				DB5EEC5B21BBBBDC00659AB5 /* MovieCollection */,
+				DB5EEC5A21BBBBD900659AB5 /* MovieDetailInfoTable */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -221,10 +286,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB78912921BACE300063DCE5 /* LaunchScreen.storyboard in Resources */,
+				DB5EEC6221BBC08E00659AB5 /* FirstCommentCell.xib in Resources */,
 				DB78912621BACE300063DCE5 /* Assets.xcassets in Resources */,
 				DB78912421BACE2E0063DCE5 /* Main.storyboard in Resources */,
+				DB5EEC5E21BBC06D00659AB5 /* SynopsisCell.xib in Resources */,
+				DB5EEC6421BBC09B00659AB5 /* ActorCell.xib in Resources */,
 				DB78915921BB21820063DCE5 /* MovieCollectionCell.xib in Resources */,
+				DB5EEC5921BBBB0000659AB5 /* MainInfoCell.xib in Resources */,
 				DB78914D21BB09A80063DCE5 /* MovieTableCell.xib in Resources */,
+				DB5EEC6021BBC08100659AB5 /* CommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,16 +308,22 @@
 				DB78915221BB0D7C0063DCE5 /* UIView+.swift in Sources */,
 				DB78913B21BAF29F0063DCE5 /* Movies.swift in Sources */,
 				DB78914421BB06590063DCE5 /* MainTabBarController.swift in Sources */,
+				DB5EEC6C21BBC10E00659AB5 /* FirstCommentCell.swift in Sources */,
 				DB78912121BACE2E0063DCE5 /* ViewController.swift in Sources */,
 				DB78913F21BAF7020063DCE5 /* Comment.swift in Sources */,
 				DB78913621BAEE050063DCE5 /* Movie.swift in Sources */,
 				DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */,
 				DB78915521BB11680063DCE5 /* Manager.swift in Sources */,
+				DB5EEC5721BBB4CA00659AB5 /* Sort.swift in Sources */,
 				DB78914621BB07270063DCE5 /* MovieCollectionVC.swift in Sources */,
 				DB78915721BB15350063DCE5 /* UIViewController+.swift in Sources */,
+				DB5EEC6A21BBC10400659AB5 /* ActorCell.swift in Sources */,
 				DB78915B21BB22DE0063DCE5 /* MovieCollectionCell.swift in Sources */,
+				DB5EEC6821BBC0FB00659AB5 /* SynopsisCell.swift in Sources */,
+				DB5EEC6E21BBC11600659AB5 /* CommentCell.swift in Sources */,
 				DB78914821BB07350063DCE5 /* MovieTableVC.swift in Sources */,
 				DB78913D21BAF2AC0063DCE5 /* Comments.swift in Sources */,
+				DB5EEC6621BBC0F300659AB5 /* MainInfoCell.swift in Sources */,
 				DB78914F21BB0CA30063DCE5 /* MovieTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
