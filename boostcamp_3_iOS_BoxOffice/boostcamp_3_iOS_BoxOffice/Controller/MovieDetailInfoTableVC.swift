@@ -21,6 +21,25 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         getComments()
     }
     
+    private func setupTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.separatorColor = .clear
+        let mainInfoCell = UINib(nibName: "MainInfoCell", bundle: nil)
+        tableView.register(mainInfoCell, forCellReuseIdentifier: "mainInfoCell")
+        
+        let synopsisCell = UINib(nibName: "SynopsisCell", bundle: nil)
+        tableView.register(synopsisCell, forCellReuseIdentifier: "synopsisCell")
+        
+        let actorCell = UINib(nibName: "ActorCell", bundle: nil)
+        tableView.register(actorCell, forCellReuseIdentifier: "actorCell")
+        
+        let firstCommentCell = UINib(nibName: "FirstCommentCell", bundle: nil)
+        tableView.register(firstCommentCell, forCellReuseIdentifier: "firstCommentCell")
+        
+        let commentCell = UINib(nibName: "CommentCell", bundle: nil)
+        tableView.register(commentCell, forCellReuseIdentifier: "commentCell")
+    }
+    
     private func getMovie() {
         guard let movieId = movieId else { return }
         Manager.getMovie(movieId: movieId) { (data, error) in
@@ -52,36 +71,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         }
     }
     
-    
-    private func setupTableView() {
-        tableView.tableFooterView = UIView()
-        tableView.separatorColor = .clear
-        let mainInfoCell = UINib(nibName: "MainInfoCell", bundle: nil)
-        tableView.register(mainInfoCell, forCellReuseIdentifier: "mainInfoCell")
-
-        let synopsisCell = UINib(nibName: "SynopsisCell", bundle: nil)
-        tableView.register(synopsisCell, forCellReuseIdentifier: "synopsisCell")
-        
-        let actorCell = UINib(nibName: "ActorCell", bundle: nil)
-        tableView.register(actorCell, forCellReuseIdentifier: "actorCell")
-        
-        let firstCommentCell = UINib(nibName: "FirstCommentCell", bundle: nil)
-        tableView.register(firstCommentCell, forCellReuseIdentifier: "firstCommentCell")
-        
-        let commentCell = UINib(nibName: "CommentCell", bundle: nil)
-        tableView.register(commentCell, forCellReuseIdentifier: "commentCell")
-    }
-    
-//    private func getDateFromTimeStamp(timeStamp : Double) -> String {
-//        let date = NSDate(timeIntervalSince1970: timeStamp)
-//
-//        let dayTimePeriodFormatter = DateFormatter()
-//        dayTimePeriodFormatter.dateFormat = "YYYY-MM-dd hh:mm:ss"
-//
-//        let dateString = dayTimePeriodFormatter.string(from: date as Date)
-//        return dateString
-//    }
-    
+    //MARK: UITableView
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -103,13 +93,12 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         return false
     }
     
-//    @objc func presentFullScreenImageVC() {
-//        guard let movie = self.movie else { return }
-//        let fullScreenImageVC = FullScreenImageVC()
-//        fullScreenImageVC.path = movie.image
-//        
-//        self.present(fullScreenImageVC, animated: false, completion: nil)
-//    }
+    @objc func presentFullScreenImageVC(image: UIImage) {
+        let fullScreenImageVC = FullScreenImageVC()
+        fullScreenImageVC.image = image
+        
+        self.present(fullScreenImageVC, animated: false, completion: nil)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let movie = self.movie else { return UITableViewCell() }
@@ -120,10 +109,10 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainInfoCell", for: indexPath) as? MainInfoCell else { return UITableViewCell() }
             
-//            let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-//            tapGesture.delegate = self
-//            tapGesture.addTarget(self, action: #selector(presentFullScreenImageVC))
-//            cell.movieThumbImage.addGestureRecognizer(tapGesture)
+            let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+            tapGesture.delegate = self
+            tapGesture.addTarget(self, action: #selector(presentFullScreenImageVC))
+            cell.movieThumbImage.addGestureRecognizer(tapGesture)
             
             cell.movie = movie
             
@@ -150,12 +139,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as? CommentCell else { return UITableViewCell() }
                 cell.comment = comment
-                
-//                cell.writerName.text = comment.writer
-////                cell.userRating.rating = (comment.rating*5) / 10
-//                cell.timestamp.text = comment.timestamp.data
-//                cell.contents.text = comment.contents
-//
+
                 return cell
             }
         default:

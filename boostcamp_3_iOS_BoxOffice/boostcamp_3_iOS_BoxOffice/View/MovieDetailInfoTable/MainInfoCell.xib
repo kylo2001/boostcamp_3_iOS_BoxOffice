@@ -159,6 +159,7 @@
                     </stackView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Y0f-Gg-Jcr" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="lE2-iO-1ho" secondAttribute="trailingMargin" id="ETg-HE-4cp"/>
                     <constraint firstItem="fdY-ge-yaK" firstAttribute="leading" secondItem="lE2-iO-1ho" secondAttribute="leading" id="J7S-ra-UYV"/>
                     <constraint firstItem="maH-jH-Kc3" firstAttribute="leading" secondItem="lE2-iO-1ho" secondAttribute="leading" constant="8" id="Lnl-hW-CIA"/>
                     <constraint firstItem="maH-jH-Kc3" firstAttribute="top" secondItem="lE2-iO-1ho" secondAttribute="top" constant="8" id="Qfk-vw-VZx"/>

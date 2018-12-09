@@ -17,6 +17,14 @@ class CommentCell: UITableViewCell {
     
     var comment: Comment! {
         didSet{
+            guard let comment = comment else {
+                print("inti CommentCell")
+                writerName.text = ""
+                timestamp.text = ""
+                contents.text = ""
+                return
+            }
+            
             self.writerName.text = comment.writer
             //  self.userRating.rating = (comment.rating*5) / 10
             self.timestamp.text = comment.timestamp.data
@@ -29,7 +37,9 @@ class CommentCell: UITableViewCell {
         contents.isScrollEnabled = false
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        print("prepareForReuse for CommentCell")
+        self.comment = nil
     }
 }

@@ -11,45 +11,37 @@ import UIKit
 class FullScreenImageVC: UIViewController, UIGestureRecognizerDelegate {
     var image: UIImage?
     
-    lazy var backGroundImageView: UIImageView = {
+    lazy var fullScreenImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "img_placeholder"))
+        imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.view.addSubview(imageView)
         return imageView
     }()
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        
-//        guard let imagePath = path else {
-//            return
-//        }
-//
-//        Manager.downloadImage(path: imagePath) { (data, error) in
-//            guard let data = data else {
-//                self.alert(error?.localizedDescription ?? "이미지를 다운로드 하지 못했습니다.")
-//                return
-//            }
-//            self.backGroundImageView.image = UIImage(data: data)
-//        }
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTapGesture()
-        setupBackgroundImage()
-        
-    }
-    
-    private func setupBackgroundImage() {
-        guard let image = image else { return }
-        backGroundImageView.image = image
+        setupImageView()
     }
     
     private func setupTapGesture() {
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
         tapGesture.delegate = self
         tapGesture.addTarget(self, action: #selector(dismissCurrentVC))
-        self.backGroundImageView.addGestureRecognizer(tapGesture)
+        self.fullScreenImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setupImageView() {
+        self.fullScreenImageView.addConstraints([
+                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0),
+                
+                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ])
+        
+        guard let image = image else { return }
+        fullScreenImageView.image = image
     }
     
     @objc func dismissCurrentVC() {

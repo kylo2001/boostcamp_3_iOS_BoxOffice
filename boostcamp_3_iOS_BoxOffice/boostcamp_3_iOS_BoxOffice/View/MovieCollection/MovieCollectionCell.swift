@@ -17,8 +17,17 @@ class MovieCollectionCell: UICollectionViewCell {
     
     var cache: NSCache = NSCache<NSString, UIImage>()
     
-    var movie: Movie! {
+    var movie: Movie? {
         didSet {
+            guard let movie = movie else {
+                movieThumbImage.image = UIImage(named: "img_placeholder")
+                movieTitle.text = ""
+                movieGradeImage.image = nil
+                movieSimpleInfo.text = ""
+                movieOpeningDate.text = ""
+                return
+            }
+            
             guard let thumbImagePath = movie.thumb else { return }
             
             movieTitle.text = movie.title
@@ -48,5 +57,10 @@ class MovieCollectionCell: UICollectionViewCell {
                 }
             }
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.movie = nil
     }
 }
