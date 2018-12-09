@@ -16,7 +16,6 @@ class ActorCell: UITableViewCell {
     var movie: Movie? {
         didSet{
             guard let movie = movie else {
-                print("init actorcell info")
                 directorName.text = ""
                 actorName.text = ""
                 return
@@ -33,7 +32,6 @@ class ActorCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepareForReuse for ActorCell")
         self.movie = nil
     }
 }

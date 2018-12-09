@@ -9,11 +9,13 @@
 import UIKit
 
 class FullScreenImageVC: UIViewController, UIGestureRecognizerDelegate {
-    var image: UIImage?
+    var path: String?
     
     lazy var fullScreenImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "img_placeholder"))
         imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
         self.view.addSubview(imageView)
         return imageView
     }()
@@ -32,20 +34,20 @@ class FullScreenImageVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func setupImageView() {
-        self.fullScreenImageView.addConstraints([
-                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0),
-                
-                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: self.fullScreenImageView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
-            ])
+        guard let imagePath = path else { return }
         
-        guard let image = image else { return }
-        fullScreenImageView.image = image
+        Manager.downloadImage(path: imagePath) { (data, error) in
+            guard let data = data else {
+                self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.")
+                return
+            }
+            DispatchQueue.main.async {
+                self.fullScreenImageView.image = UIImage(data: data)
+            }
+        }
     }
     
     @objc func dismissCurrentVC() {
         self.dismiss(animated: false, completion: nil)
     }
-    
 }

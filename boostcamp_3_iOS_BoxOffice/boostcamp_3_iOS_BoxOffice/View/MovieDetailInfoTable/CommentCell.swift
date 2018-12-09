@@ -18,7 +18,6 @@ class CommentCell: UITableViewCell {
     var comment: Comment! {
         didSet{
             guard let comment = comment else {
-                print("inti CommentCell")
                 writerName.text = ""
                 timestamp.text = ""
                 contents.text = ""
@@ -39,7 +38,6 @@ class CommentCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepareForReuse for CommentCell")
         self.comment = nil
     }
 }

@@ -16,7 +16,19 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRefreshControl()
         setupTableView()
+        getMovie()
+        getComments()
+    }
+    
+    func setupRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = .blue
+        self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
         getMovie()
         getComments()
     }
@@ -43,6 +55,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     private func getMovie() {
         guard let movieId = movieId else { return }
         Manager.getMovie(movieId: movieId) { (data, error) in
+            self.refreshControl?.endRefreshing()
             guard let movie = data else {
                 self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
                 return
@@ -59,6 +72,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     private func getComments() {
         guard let movieId = movieId else { return }
         Manager.getComments(movieId: movieId) { (data, error) in
+            self.refreshControl?.endRefreshing()
             guard let comments = data else {
                 self.alert(error?.localizedDescription ?? "한줄평 정보를 가져오지 못했습니다.")
                 return
@@ -93,9 +107,11 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         return false
     }
     
-    @objc func presentFullScreenImageVC(image: UIImage) {
+    @objc func presentFullScreenImageVC() {
+        print("presentFullScreenImageVC")
+        guard let movie = self.movie else { return }
         let fullScreenImageVC = FullScreenImageVC()
-        fullScreenImageVC.image = image
+        fullScreenImageVC.path = movie.image
         
         self.present(fullScreenImageVC, animated: false, completion: nil)
     }
@@ -109,10 +125,12 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainInfoCell", for: indexPath) as? MainInfoCell else { return UITableViewCell() }
             
-            let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-            tapGesture.delegate = self
-            tapGesture.addTarget(self, action: #selector(presentFullScreenImageVC))
-            cell.movieThumbImage.addGestureRecognizer(tapGesture)
+            if cell.movieThumbImage.gestureRecognizers?.count ?? 0 == 0 {
+                let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+                tapGesture.delegate = self
+                tapGesture.addTarget(self, action: #selector(presentFullScreenImageVC))
+                cell.movieThumbImage.addGestureRecognizer(tapGesture)
+            }
             
             cell.movie = movie
             

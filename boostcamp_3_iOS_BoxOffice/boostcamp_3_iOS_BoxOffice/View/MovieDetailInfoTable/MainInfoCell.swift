@@ -50,7 +50,6 @@ class MainInfoCell: UITableViewCell {
             //            cell.userRatingView.rating = (movie.userRating*5) / 10
             
             if let image = cache.object(forKey: thumbImagePath as NSString) {
-                print("cacheImage")
                 self.movieThumbImage.image = image
             } else {
                 print("Loading image with path:", thumbImagePath)
@@ -80,7 +79,6 @@ class MainInfoCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepareForReuse for mainInfo")
         self.movie = nil
     }
 }

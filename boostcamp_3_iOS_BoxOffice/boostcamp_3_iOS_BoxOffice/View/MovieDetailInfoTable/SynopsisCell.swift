@@ -30,7 +30,6 @@ class SynopsisCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        print("prepareForReuse for sysnosis")
         self.movie = nil
     }
 }

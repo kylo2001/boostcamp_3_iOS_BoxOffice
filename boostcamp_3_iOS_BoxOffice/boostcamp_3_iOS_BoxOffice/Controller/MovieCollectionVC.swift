@@ -38,8 +38,8 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         setMovieOrderAndNavigationTitle()
     }
     
-    private func getMovies(orderType: Int) {
-        Manager.getMovies(orderType: orderType) { (data, error) in
+    private func getMovies() {
+        Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
             guard let movies = data else {
                 self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
                 return
@@ -56,14 +56,14 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         let nib = UINib(nibName: "MovieCollectionCell", bundle: nil)
         collectionView?.register(nib, forCellWithReuseIdentifier: cellId)
         
-        getMovies(orderType: Sort.shared.orderType)
+        getMovies()
         
         let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpSortingBarButtonItem))
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
     private func setMovieOrderAndNavigationTitle() {
-        getMovies(orderType: Sort.shared.orderType)
+        getMovies()
         
         switch Sort.shared.orderType {
         case 0:
@@ -128,15 +128,11 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
-        guard let movieDetailInfoTableVC = UITableViewController() as? MovieDetailInfoTableVC else {
-            return
-        }
-
+        let movieDetailInfoTableVC = MovieDetailInfoTableVC()
         let movie = movies[indexPath.item]
-
+        
         movieDetailInfoTableVC.movieId = movie.movieId
-
+        
         self.navigationController?.pushViewController(movieDetailInfoTableVC, animated: true)
     }
 
