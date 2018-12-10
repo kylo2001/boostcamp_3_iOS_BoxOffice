@@ -22,6 +22,7 @@ class MovieTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRefreshControl()
         setupTableView()
     }
     
@@ -30,13 +31,32 @@ class MovieTableVC: UITableViewController {
         setMovieOrderAndNavigationTitle()
     }
     
-    private func getMovies(orderType: Int) {
-        Manager.getMovies(orderType: orderType) { (data, error) in
-            guard let movies = data else {
-                self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
-                return
+    private func setupRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = .blue
+        self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
+    @objc func handleRefreshControl() {
+        getMovies()
+    }
+    
+    private func getMovies() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                }
+                
+                guard let movies = data else {
+                    DispatchQueue.main.async {
+                        self.alert("영화 정보를 가져오지 못했습니다.\n아래 방향으로 스와이프를 하여 새로고침을 해주세요.")
+                    }
+                    return
+                }
+                
+                self.movies = movies
             }
-            self.movies = movies
         }
     }
     
@@ -45,25 +65,10 @@ class MovieTableVC: UITableViewController {
         let nib = UINib(nibName: "MovieTableCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellId)
         
-        getMovies(orderType: Sort.shared.orderType)
+        getMovies()
         
         let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpSortingBarButtonItem))
         navigationItem.rightBarButtonItems = [sortingButton]
-    }
-    
-    private func setMovieOrderAndNavigationTitle() {
-        getMovies(orderType: Sort.shared.orderType)
-        
-        switch Sort.shared.orderType {
-        case 0:
-            self.navigationItem.title = "예매율순"
-        case 1:
-            self.navigationItem.title = "큐레이션"
-        case 2:
-            self.navigationItem.title = "개봉일순"
-        default:
-            print("default")
-        }
     }
     
     @objc func touchUpSortingBarButtonItem(_ sender: UIBarButtonItem) {
@@ -84,6 +89,21 @@ class MovieTableVC: UITableViewController {
         }
         
         self.actionSheet(title: "정렬방식 선택",message: "영화를 어떤 순서로 정렬할까요?", actions: ["예매율", "큐레이션", "개봉일"], handler: handler)
+    }
+    
+    
+    private func setMovieOrderAndNavigationTitle() {
+        switch Sort.shared.orderType {
+        case 0:
+            self.navigationItem.title = "예매율순"
+        case 1:
+            self.navigationItem.title = "큐레이션"
+        case 2:
+            self.navigationItem.title = "개봉일순"
+        default:
+            print("default")
+        }
+        getMovies()
     }
     
     //MARK: UITableView
@@ -109,10 +129,8 @@ class MovieTableVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt")
         let movieDetailInfoTableVC = MovieDetailInfoTableVC()
-        
-        let movie = movies[indexPath.item]
+        let movie = movies[indexPath.row]
         
         movieDetailInfoTableVC.movieId = movie.movieId
         

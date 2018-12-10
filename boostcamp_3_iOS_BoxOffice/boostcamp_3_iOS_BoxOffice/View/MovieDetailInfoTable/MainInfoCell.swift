@@ -23,46 +23,41 @@ class MainInfoCell: UITableViewCell {
     
     var cache: NSCache = NSCache<NSString, UIImage>()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.movieThumbImage.isUserInteractionEnabled = true
-        
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
-//    @objc func presentFullScreenImageVC() {
-////        guard let movie = self.movie else { return }
-//        let fullScreenImageVC = FullScreenImageVC()
-//        fullScreenImageVC.image = self.movieThumbImage.image
-//        
-//        self.present(fullScreenImageVC, animated: false, completion: nil)
-//    }
-    
-    var movie: Movie! {
+    var movie: Movie? {
         didSet {
-            guard let thumbImagePath = movie.image else { return }
+            guard let movie = movie else {
+                movieThumbImage.image = UIImage(named: "img_placeholder")
+                movieTitle.text = ""
+                movieGradeImage.image = nil
+                genreDuration.text = ""
+                movieOpeningDate.text = ""
+                reservationRate.text = ""
+                userRatingLabel.text = ""
+                audience.text = ""
+                return
+            }
+            
+            guard let thumbImagePath = movie.image else {
+                return
+            }
             
             movieTitle.text = movie.title
-            genreDuration.text = movie.genre! + String(movie.duration!)
+            genreDuration.text = movie.genre! + "/" + String(movie.duration!) + "분"
             movieOpeningDate.text = movie.date + "개봉"
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
-            reservationRate.text = String(movie.reservationRate)
+            reservationRate.text = String(movie.reservationGrade) + "위 " + String(movie.reservationRate)
             userRatingLabel.text = String(movie.userRating)
             audience.text = String(movie.audience!)
             
             //            cell.userRatingView.rating = (movie.userRating*5) / 10
             
             if let image = cache.object(forKey: thumbImagePath as NSString) {
-                print("cacheImage")
                 self.movieThumbImage.image = image
             } else {
-                print("Loading image with path:", thumbImagePath)
+//                print("Loading image with path:", thumbImagePath)
                 
                 Manager.downloadImage(path: thumbImagePath) { (data, error) in
-                    print("Finished download image data:", data ?? "")
+//                    print("Finished download image data:", data ?? "")
                     
                     guard let data = data else {
                         return
@@ -77,5 +72,15 @@ class MainInfoCell: UITableViewCell {
                 }
             }
         }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.movieThumbImage.isUserInteractionEnabled = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.movie = nil
     }
 }

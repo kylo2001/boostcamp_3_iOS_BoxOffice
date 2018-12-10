@@ -12,8 +12,12 @@ class SynopsisCell: UITableViewCell {
     
     @IBOutlet weak var synopsisTextView: UITextView!
     
-    var movie: Movie! {
+    var movie: Movie? {
         didSet{
+            guard let movie = movie else {
+                synopsisTextView.text = ""
+                return
+            }
             self.synopsisTextView.text = movie.synopsis
         }
     }
@@ -24,7 +28,8 @@ class SynopsisCell: UITableViewCell {
         self.synopsisTextView.isEditable = false
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.movie = nil
     }
 }

@@ -17,9 +17,20 @@ class MovieTableCell: UITableViewCell {
     
     var cache: NSCache = NSCache<NSString, UIImage>()
     
-    var movie: Movie! {
+    var movie: Movie? {
         didSet {
-            guard let thumbImagePath = movie.thumb else { return }
+            guard let movie = movie else {
+                movieThumbImage.image = UIImage(named: "img_placeholder")
+                movieTitle.text = ""
+                movieGradeImage.image = nil
+                movieSimpleInfo.text = ""
+                movieOpeningDate.text = ""
+                return
+            }
+            
+            guard let thumbImagePath = movie.thumb else {
+                return
+            }
             
             movieTitle.text = movie.title
             movieSimpleInfo.text = movie.simpleTableInfo
@@ -27,13 +38,13 @@ class MovieTableCell: UITableViewCell {
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
             
             if let image = cache.object(forKey: thumbImagePath as NSString) {
-                print("cacheImage")
+//                print("cacheImage")
                 self.movieThumbImage.image = image
             } else {
-                print("Loading image with path:", thumbImagePath)
+//                print("Loading image with path:", thumbImagePath)
                 
                 Manager.downloadImage(path: thumbImagePath) { (data, error) in
-                    print("Finished download image data:", data ?? "")
+//                    print("Finished download image data:", data ?? "")
                     
                     guard let data = data else {
                         return
@@ -48,5 +59,10 @@ class MovieTableCell: UITableViewCell {
                 }
             }
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.movie = nil
     }
 }

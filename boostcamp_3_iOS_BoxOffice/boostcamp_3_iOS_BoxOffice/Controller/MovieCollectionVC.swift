@@ -38,13 +38,18 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         setMovieOrderAndNavigationTitle()
     }
     
-    private func getMovies(orderType: Int) {
-        Manager.getMovies(orderType: orderType) { (data, error) in
-            guard let movies = data else {
-                self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
-                return
+    private func getMovies() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
+                guard let movies = data else {
+                    DispatchQueue.main.async {
+                        self.alert("영화 정보를 가져오지 못했습니다.\n아래 방향으로 스와이프를 하여 새로고침을 해주세요.")
+                    }
+                    return
+                }
+                
+                self.movies = movies
             }
-            self.movies = movies
         }
     }
     
@@ -53,18 +58,15 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         collectionView?.dataSource = self
         collectionView?.backgroundColor = UIColor.white
         
-        let nib = UINib(nibName: "MovieCollectionCell", bundle: nil)
-        collectionView?.register(nib, forCellWithReuseIdentifier: cellId)
-        
-        getMovies(orderType: Sort.shared.orderType)
+        self.registerCustomCells(nibNames: ["MovieCollectionCell"], forCellReuseIdentifiers: [cellId])
+
+        getMovies()
         
         let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpSortingBarButtonItem))
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
     private func setMovieOrderAndNavigationTitle() {
-        getMovies(orderType: Sort.shared.orderType)
-        
         switch Sort.shared.orderType {
         case 0:
             self.navigationItem.title = "예매율순"
@@ -75,6 +77,8 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         default:
             print("default")
         }
+        
+        getMovies()
     }
     
     @objc func touchUpSortingBarButtonItem(_ sender: UIBarButtonItem) {
@@ -128,15 +132,11 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
-        guard let movieDetailInfoTableVC = UITableViewController() as? MovieDetailInfoTableVC else {
-            return
-        }
-
+        let movieDetailInfoTableVC = MovieDetailInfoTableVC()
         let movie = movies[indexPath.item]
-
+        
         movieDetailInfoTableVC.movieId = movie.movieId
-
+        
         self.navigationController?.pushViewController(movieDetailInfoTableVC, animated: true)
     }
 

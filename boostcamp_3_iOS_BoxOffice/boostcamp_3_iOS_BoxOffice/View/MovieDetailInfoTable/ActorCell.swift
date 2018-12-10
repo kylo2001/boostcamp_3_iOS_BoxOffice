@@ -13,8 +13,14 @@ class ActorCell: UITableViewCell {
     @IBOutlet weak var directorName: UILabel!
     @IBOutlet weak var actorName: UILabel!
     
-    var movie: Movie! {
+    var movie: Movie? {
         didSet{
+            guard let movie = movie else {
+                directorName.text = ""
+                actorName.text = ""
+                return
+            }
+            
             self.directorName.text = movie.director
             self.actorName.text = movie.actor
         }
@@ -24,7 +30,8 @@ class ActorCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.movie = nil
     }
 }
