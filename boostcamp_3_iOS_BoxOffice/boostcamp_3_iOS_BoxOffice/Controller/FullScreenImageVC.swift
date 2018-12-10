@@ -34,11 +34,16 @@ class FullScreenImageVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func setupImageView() {
-        guard let imagePath = path else { return }
+        guard let imagePath = path else {
+            return
+        }
         
         Manager.downloadImage(path: imagePath) { (data, error) in
             guard let data = data else {
-                self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.")
+                DispatchQueue.main.async {
+                    self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.\n다시 시도해주세요.")
+                    self.dismiss(animated: false, completion: nil)
+                }
                 return
             }
             DispatchQueue.main.async {

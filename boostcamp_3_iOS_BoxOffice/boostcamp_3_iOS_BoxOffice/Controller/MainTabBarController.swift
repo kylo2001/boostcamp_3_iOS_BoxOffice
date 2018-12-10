@@ -18,7 +18,7 @@ class MainTabBarController: UITabBarController {
     
     //MARK:- Setup Functions
     
-    func setupViewControllers() {
+    private func setupViewControllers() {
         let flowLayout = UICollectionViewFlowLayout()
         
         viewControllers = [
@@ -29,7 +29,7 @@ class MainTabBarController: UITabBarController {
     
     //MARK:- Helper Functions
     
-    fileprivate func generateNavigationController(for rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
+    private func generateNavigationController(for rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
         rootViewController.navigationItem.title = title
         navController.tabBarItem.title = title

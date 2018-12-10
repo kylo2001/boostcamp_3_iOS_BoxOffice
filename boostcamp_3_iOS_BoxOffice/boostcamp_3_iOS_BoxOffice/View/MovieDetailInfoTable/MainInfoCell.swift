@@ -37,7 +37,9 @@ class MainInfoCell: UITableViewCell {
                 return
             }
             
-            guard let thumbImagePath = movie.image else { return }
+            guard let thumbImagePath = movie.image else {
+                return
+            }
             
             movieTitle.text = movie.title
             genreDuration.text = movie.genre! + "/" + String(movie.duration!) + "분"
@@ -52,10 +54,10 @@ class MainInfoCell: UITableViewCell {
             if let image = cache.object(forKey: thumbImagePath as NSString) {
                 self.movieThumbImage.image = image
             } else {
-                print("Loading image with path:", thumbImagePath)
+//                print("Loading image with path:", thumbImagePath)
                 
                 Manager.downloadImage(path: thumbImagePath) { (data, error) in
-                    print("Finished download image data:", data ?? "")
+//                    print("Finished download image data:", data ?? "")
                     
                     guard let data = data else {
                         return

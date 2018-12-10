@@ -31,7 +31,7 @@ class MovieTableVC: UITableViewController {
         setMovieOrderAndNavigationTitle()
     }
     
-    func setupRefreshControl() {
+    private func setupRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -42,13 +42,21 @@ class MovieTableVC: UITableViewController {
     }
     
     private func getMovies() {
-        Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
-            self.refreshControl?.endRefreshing()
-            guard let movies = data else {
-                self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
-                return
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                }
+                
+                guard let movies = data else {
+                    DispatchQueue.main.async {
+                        self.alert("영화 정보를 가져오지 못했습니다.\n아래 방향으로 스와이프를 하여 새로고침을 해주세요.")
+                    }
+                    return
+                }
+                
+                self.movies = movies
             }
-            self.movies = movies
         }
     }
     
@@ -85,8 +93,6 @@ class MovieTableVC: UITableViewController {
     
     
     private func setMovieOrderAndNavigationTitle() {
-        getMovies()
-        
         switch Sort.shared.orderType {
         case 0:
             self.navigationItem.title = "예매율순"
@@ -97,9 +103,8 @@ class MovieTableVC: UITableViewController {
         default:
             print("default")
         }
+        getMovies()
     }
-    
-    
     
     //MARK: UITableView
     

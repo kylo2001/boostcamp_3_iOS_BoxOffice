@@ -11,8 +11,20 @@ import UIKit
 class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate {
     
     var movieId: String?
-    var movie: Movie?
-    var comments: [Comment]?
+    var movie: Movie? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    var comments: [Comment]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,51 +48,59 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     private func setupTableView() {
         tableView.tableFooterView = UIView()
         tableView.separatorColor = .clear
-        let mainInfoCell = UINib(nibName: "MainInfoCell", bundle: nil)
-        tableView.register(mainInfoCell, forCellReuseIdentifier: "mainInfoCell")
+        let nibNames = ["MainInfoCell", "SynopsisCell", "ActorCell", "FirstCommentCell", "CommentCell"]
+        let identifiers = ["mainInfoCell", "synopsisCell", "actorCell", "firstCommentCell", "commentCell"]
         
-        let synopsisCell = UINib(nibName: "SynopsisCell", bundle: nil)
-        tableView.register(synopsisCell, forCellReuseIdentifier: "synopsisCell")
-        
-        let actorCell = UINib(nibName: "ActorCell", bundle: nil)
-        tableView.register(actorCell, forCellReuseIdentifier: "actorCell")
-        
-        let firstCommentCell = UINib(nibName: "FirstCommentCell", bundle: nil)
-        tableView.register(firstCommentCell, forCellReuseIdentifier: "firstCommentCell")
-        
-        let commentCell = UINib(nibName: "CommentCell", bundle: nil)
-        tableView.register(commentCell, forCellReuseIdentifier: "commentCell")
+        self.registerCustomCells(nibNames: nibNames, forCellReuseIdentifiers: identifiers)
     }
     
     private func getMovie() {
-        guard let movieId = movieId else { return }
-        Manager.getMovie(movieId: movieId) { (data, error) in
-            self.refreshControl?.endRefreshing()
-            guard let movie = data else {
-                self.alert(error?.localizedDescription ?? "영화 정보를 가져오지 못했습니다.")
-                return
-            }
-            self.movie = movie
-            self.navigationItem.title = movie.title
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+        guard let movieId = movieId else {
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getMovie(movieId: movieId) { (data, error) in
+                guard let movie = data else {
+                    DispatchQueue.main.async {
+                        self.alert("영화 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                    self.navigationItem.title = movie.title
+                }
+                
+                self.movie = movie
             }
         }
     }
     
     private func getComments() {
-        guard let movieId = movieId else { return }
-        Manager.getComments(movieId: movieId) { (data, error) in
-            self.refreshControl?.endRefreshing()
-            guard let comments = data else {
-                self.alert(error?.localizedDescription ?? "한줄평 정보를 가져오지 못했습니다.")
-                return
-            }
-            self.comments = comments
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+        guard let movieId = movieId else {
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getComments(movieId: movieId) { (data, error) in
+                guard let comments = data else {
+                    DispatchQueue.main.async {
+                        self.alert("한줄평 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                }
+                
+                self.comments = comments
             }
         }
     }
@@ -108,8 +128,10 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     }
     
     @objc func presentFullScreenImageVC() {
-        print("presentFullScreenImageVC")
-        guard let movie = self.movie else { return }
+        guard let movie = self.movie else {
+            return
+        }
+        
         let fullScreenImageVC = FullScreenImageVC()
         fullScreenImageVC.path = movie.image
         
@@ -117,13 +139,21 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let movie = self.movie else { return UITableViewCell() }
-        guard let comments = self.comments else { return UITableViewCell() }
+        guard let movie = self.movie else {
+            return UITableViewCell()
+        }
+        
+        guard let comments = self.comments else {
+            return UITableViewCell()
+        }
+        
         let comment = comments[indexPath.row]
         
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainInfoCell", for: indexPath) as? MainInfoCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainInfoCell", for: indexPath) as? MainInfoCell else {
+                return UITableViewCell()
+            }
             
             if cell.movieThumbImage.gestureRecognizers?.count ?? 0 == 0 {
                 let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
@@ -136,26 +166,35 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "synopsisCell", for: indexPath) as? SynopsisCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "synopsisCell", for: indexPath) as? SynopsisCell else {
+                return UITableViewCell()
+            }
             
             cell.movie = movie
             
             return cell
         case 2:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "actorCell", for: indexPath) as? ActorCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "actorCell", for: indexPath) as? ActorCell else {
+                return UITableViewCell()
+            }
             
             cell.movie = movie
             
             return cell
         case 3:
             if indexPath.row == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "firstCommentCell", for: indexPath) as? FirstCommentCell else { return UITableViewCell() }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "firstCommentCell", for: indexPath) as? FirstCommentCell else {
+                    return UITableViewCell()
+                }
                 
                 cell.comment = comment
                 
                 return cell
             } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as? CommentCell else { return UITableViewCell() }
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as? CommentCell else {
+                    return UITableViewCell()
+                }
+                
                 cell.comment = comment
 
                 return cell

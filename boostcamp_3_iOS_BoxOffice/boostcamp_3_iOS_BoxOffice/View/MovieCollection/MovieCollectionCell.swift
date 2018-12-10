@@ -28,7 +28,9 @@ class MovieCollectionCell: UICollectionViewCell {
                 return
             }
             
-            guard let thumbImagePath = movie.thumb else { return }
+            guard let thumbImagePath = movie.thumb else {
+                return
+            }
             
             movieTitle.text = movie.title
             movieSimpleInfo.text = movie.simpleCollectionInfo
@@ -38,10 +40,10 @@ class MovieCollectionCell: UICollectionViewCell {
             if let image = cache.object(forKey: thumbImagePath as NSString) {
                 self.movieThumbImage.image = image
             } else {
-                print("Loading image with path:", thumbImagePath)
+//                print("Loading image with path:", thumbImagePath)
                 
                 Manager.downloadImage(path: thumbImagePath) { (data, error) in
-                    print("Finished download image data:", data ?? "")
+//                    print("Finished download image data:", data ?? "")
                     
                     guard let data = data else {
                         return

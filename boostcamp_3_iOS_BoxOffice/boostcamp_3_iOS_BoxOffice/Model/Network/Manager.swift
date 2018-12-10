@@ -38,29 +38,15 @@ class Manager {
     class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data else {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
+                completion(nil, error)
                 return
             }
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
-                DispatchQueue.main.async {
-                    completion(responseObject, nil)
-                }
+                completion(responseObject, nil)
             } catch {
-                print(error) // 에러 핸들링 제대로 해줘야한다.!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //                do {
-                //                    let errorResponse = try decoder.decode(TMDBResponse.self, from: data) as Error
-                //                    DispatchQueue.main.async {
-                //                        completion(nil, errorResponse)
-                //                    }
-                //                } catch {
-                //                    DispatchQueue.main.async {
-                //                        completion(nil, error)
-                //                    }
-                //                }
+                completion(nil, error)
             }
         }
         task.resume()
@@ -68,42 +54,43 @@ class Manager {
     
     class func getMovie(movieId: String, completion: @escaping (Movie?, Error?) -> Void) {
         taskForGETRequest(url: Endpoints.getMovie(movieId).url, responseType: Movie.self) { response, error in
-            if let response = response {
-                completion(response, nil)
-            } else {
+            guard let response = response else {
                 completion(nil, error)
+                return
             }
+            completion(response, nil)
         }
     }
     
     class func getMovies(orderType: Int, completion: @escaping ([Movie]?, Error?) -> Void) {
         taskForGETRequest(url: Endpoints.getMovies(orderType).url, responseType: Movies.self) { response, error in
-            if let response = response {
-                completion(response.movies, nil)
-            } else {
+            guard let response = response else {
                 completion(nil, error)
+                return
             }
+            completion(response.movies, nil)
         }
     }
     
     class func getComments(movieId: String, completion: @escaping ([Comment]?, Error?) -> Void) {
         taskForGETRequest(url: Endpoints.getComments(movieId).url, responseType: Comments.self) { response, error in
-            if let response = response {
-                completion(response.comments, nil)
-            } else {
+            guard let response = response else {
                 completion(nil, error)
+                return
             }
+            completion(response.comments, nil)
         }
     }
     
     class func downloadImage(path: String, completion: @escaping (Data?, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: Endpoints.posterImage(path).url) { data, response, error in
-            DispatchQueue.main.async {
-                completion(data, error)
+        let task = URLSession.shared.dataTask(with: Endpoints.posterImage(path).url) { data, _, error  in
+            guard let data = data else {
+                completion(nil, error)
+                return
             }
+            completion(data, nil)
         }
         task.resume()
     }
-    
 }
 
