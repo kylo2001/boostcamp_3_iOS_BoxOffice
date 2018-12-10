@@ -13,22 +13,26 @@ class MovieTableVC: UITableViewController {
     var movies: [Movie] = [] {
         didSet {
             DispatchQueue.main.async {
+                self.setMovieOrderAndNavigationTitle()
                 self.tableView.reloadData()
             }
         }
     }
+    
+    weak var indicator: UIActivityIndicatorView!
     
     let cellId: String = "movieTableCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRefreshControl()
+        setupIndicator()
         setupTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setMovieOrderAndNavigationTitle()
+        getMovies()
     }
     
     private func setupRefreshControl() {
@@ -41,31 +45,30 @@ class MovieTableVC: UITableViewController {
         getMovies()
     }
     
-    private func getMovies() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
-                DispatchQueue.main.async {
-                    self.refreshControl?.endRefreshing()
-                }
-                
-                guard let movies = data else {
-                    DispatchQueue.main.async {
-                        self.alert("영화 정보를 가져오지 못했습니다.\n아래 방향으로 스와이프를 하여 새로고침을 해주세요.")
-                    }
-                    return
-                }
-                
-                self.movies = movies
-            }
-        }
+    private func setupIndicator() {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .whiteLarge
+        indicator.color = .gray
+    
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        
+        self.tableView.addSubview(indicator)
+        
+        self.tableView.addConstraints([
+            NSLayoutConstraint(item: indicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 37),
+            NSLayoutConstraint(item: indicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 37),
+            NSLayoutConstraint(item: indicator, attribute: .centerX, relatedBy: .equal, toItem: self.tableView, attribute: .centerX, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: indicator, attribute: .centerY, relatedBy: .equal, toItem: self.tableView, attribute: .centerY, multiplier: 1.0, constant: 0),
+            ])
+        
+        self.indicator = indicator
     }
     
     private func setupTableView() {
+        self.navigationItem.title = ""
         tableView.tableFooterView = UIView()
-        let nib = UINib(nibName: "MovieTableCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: cellId)
-        
-        getMovies()
+        self.registerCustomCells(nibNames: ["MovieTableCell"], forCellReuseIdentifiers: [cellId])
         
         let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpSortingBarButtonItem))
         navigationItem.rightBarButtonItems = [sortingButton]
@@ -85,12 +88,41 @@ class MovieTableVC: UITableViewController {
             default:
                 print("취소")
             }
+            self.getMovies()
             self.setMovieOrderAndNavigationTitle()
         }
         
         self.actionSheet(title: "정렬방식 선택",message: "영화를 어떤 순서로 정렬할까요?", actions: ["예매율", "큐레이션", "개봉일"], handler: handler)
     }
     
+    private func getMovies() {
+        self.indicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            Manager.getMovies(orderType: Sort.shared.orderType) { (data, error) in
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                    self.refreshControl?.isHidden = true
+                    self.indicator.stopAnimating()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
+                
+                guard let movies = data else {
+                    DispatchQueue.main.async {
+                        // 1. movie 데이터의 키값 매칭에 실패했을 경우
+                        // 2. 정렬 순서와 맞지 않은 영화 정보를 가지고 있는 경우
+                        // 3. 네트워크가 끊어졌을 경우
+                        self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                            self.navigationItem.title = ""
+                        }
+                    }
+                    return
+                }
+                self.movies = movies
+            }
+        }
+    }
     
     private func setMovieOrderAndNavigationTitle() {
         switch Sort.shared.orderType {
@@ -101,9 +133,8 @@ class MovieTableVC: UITableViewController {
         case 2:
             self.navigationItem.title = "개봉일순"
         default:
-            print("default")
+            break
         }
-        getMovies()
     }
     
     //MARK: UITableView
