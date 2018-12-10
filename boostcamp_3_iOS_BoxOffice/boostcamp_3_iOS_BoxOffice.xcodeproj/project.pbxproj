@@ -24,6 +24,7 @@
 		DB66B6A321BCE7C000BCB45E /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A221BCE7C000BCB45E /* FloatRatingView.swift */; };
 		DB66B6A521BE140A00BCB45E /* UITableViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A421BE140A00BCB45E /* UITableViewController+.swift */; };
 		DB66B6A721BE196600BCB45E /* UICollectionViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A621BE196600BCB45E /* UICollectionViewController+.swift */; };
+		DB66B6A921BE781300BCB45E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A821BE781300BCB45E /* String+.swift */; };
 		DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */; };
 		DB78912421BACE2E0063DCE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB78912221BACE2E0063DCE5 /* Main.storyboard */; };
 		DB78912621BACE300063DCE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB78912521BACE300063DCE5 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		DB66B6A221BCE7C000BCB45E /* FloatRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		DB66B6A421BE140A00BCB45E /* UITableViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+.swift"; sourceTree = "<group>"; };
 		DB66B6A621BE196600BCB45E /* UICollectionViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewController+.swift"; sourceTree = "<group>"; };
+		DB66B6A821BE781300BCB45E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		DB78911B21BACE2E0063DCE5 /* boostcamp_3_iOS_BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = boostcamp_3_iOS_BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB78911E21BACE2E0063DCE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB78912321BACE2E0063DCE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				DB78915621BB15350063DCE5 /* UIViewController+.swift */,
 				DB66B6A421BE140A00BCB45E /* UITableViewController+.swift */,
 				DB66B6A621BE196600BCB45E /* UICollectionViewController+.swift */,
+				DB66B6A821BE781300BCB45E /* String+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */,
 				DB78915521BB11680063DCE5 /* Manager.swift in Sources */,
 				DB5EEC5721BBB4CA00659AB5 /* Sort.swift in Sources */,
+				DB66B6A921BE781300BCB45E /* String+.swift in Sources */,
 				DB78914621BB07270063DCE5 /* MovieCollectionVC.swift in Sources */,
 				DB78915721BB15350063DCE5 /* UIViewController+.swift in Sources */,
 				DB5EEC6A21BBC10400659AB5 /* ActorCell.swift in Sources */,

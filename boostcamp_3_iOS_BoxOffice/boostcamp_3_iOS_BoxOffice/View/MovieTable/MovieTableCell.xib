@@ -32,7 +32,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="A3Q-BL-p2h">
                                 <rect key="frame" x="0.0" y="0.0" width="80.5" height="30"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BMI-Cz-K3W">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="BMI-Cz-K3W">
                                         <rect key="frame" x="0.0" y="5" width="42.5" height="19.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <nil key="textColor"/>
@@ -47,7 +47,7 @@
                                     </imageView>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evp-SU-23D">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="evp-SU-23D">
                                 <rect key="frame" x="0.0" y="38" width="35.5" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
@@ -65,7 +65,7 @@
                 <constraints>
                     <constraint firstItem="iC7-ZH-E8E" firstAttribute="leading" secondItem="d8m-JF-ycB" secondAttribute="trailing" constant="8" id="CeR-fx-UPu"/>
                     <constraint firstItem="d8m-JF-ycB" firstAttribute="centerY" secondItem="XBQ-yW-GyT" secondAttribute="centerY" id="J9J-Sr-r71"/>
-                    <constraint firstAttribute="trailingMargin" relation="lessThanOrEqual" secondItem="iC7-ZH-E8E" secondAttribute="trailing" constant="224" id="SNm-az-cas"/>
+                    <constraint firstItem="iC7-ZH-E8E" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="XBQ-yW-GyT" secondAttribute="trailingMargin" id="SNm-az-cas"/>
                     <constraint firstItem="d8m-JF-ycB" firstAttribute="leading" secondItem="XBQ-yW-GyT" secondAttribute="leadingMargin" id="W2s-c4-G5v"/>
                     <constraint firstItem="iC7-ZH-E8E" firstAttribute="centerY" secondItem="d8m-JF-ycB" secondAttribute="centerY" id="k8x-ay-isl"/>
                 </constraints>

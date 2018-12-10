@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="461" height="225.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="44e-F3-0lw">
-                        <rect key="frame" x="100" y="11" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="44e-F3-0lw">
+                        <rect key="frame" x="100" y="11" width="42" height="20.5"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="187" id="WWh-Bv-Apo"/>
                         </constraints>
@@ -36,13 +36,13 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fJc-3y-Z1G">
-                        <rect key="frame" x="100" y="69" width="341" height="146"/>
+                        <rect key="frame" x="100" y="68.5" width="341" height="146.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxW-1h-jtY">
-                        <rect key="frame" x="100" y="40" width="341" height="21"/>
+                        <rect key="frame" x="100" y="39.5" width="341" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -67,6 +67,7 @@
                     <constraint firstItem="fJc-3y-Z1G" firstAttribute="trailing" secondItem="WrF-81-bBP" secondAttribute="trailingMargin" id="Zhy-IV-1LN"/>
                     <constraint firstItem="fJc-3y-Z1G" firstAttribute="leading" secondItem="lxW-1h-jtY" secondAttribute="leading" id="aEf-eD-pvn"/>
                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="oAC-i0-Hez" secondAttribute="bottom" constant="8" id="bN9-4g-B8K"/>
+                    <constraint firstItem="iXK-mY-XWY" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="WrF-81-bBP" secondAttribute="trailingMargin" id="cuQ-aX-2kq"/>
                     <constraint firstItem="lxW-1h-jtY" firstAttribute="leading" secondItem="44e-F3-0lw" secondAttribute="leading" id="hvX-wG-PF2"/>
                     <constraint firstItem="fJc-3y-Z1G" firstAttribute="bottom" secondItem="WrF-81-bBP" secondAttribute="bottomMargin" id="k7n-zF-twx"/>
                     <constraint firstItem="iXK-mY-XWY" firstAttribute="centerY" secondItem="44e-F3-0lw" secondAttribute="centerY" id="yOr-xP-9W0"/>

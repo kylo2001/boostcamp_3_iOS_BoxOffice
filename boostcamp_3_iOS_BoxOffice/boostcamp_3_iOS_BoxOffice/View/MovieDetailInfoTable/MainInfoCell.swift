@@ -45,9 +45,9 @@ class MainInfoCell: UITableViewCell {
             genreDuration.text = movie.genre! + "/" + String(movie.duration!) + "분"
             movieOpeningDate.text = movie.date + "개봉"
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
-            reservationRate.text = String(movie.reservationGrade) + "위 " + String(movie.reservationRate)
+            reservationRate.text = String(movie.reservationGrade) + "위 " + String(movie.reservationRate) + "%"
             userRatingLabel.text = String(movie.userRating)
-            audience.text = String(movie.audience!)
+            audience.text = String(movie.audience!).insertComma
             
             //            cell.userRatingView.rating = (movie.userRating*5) / 10
             

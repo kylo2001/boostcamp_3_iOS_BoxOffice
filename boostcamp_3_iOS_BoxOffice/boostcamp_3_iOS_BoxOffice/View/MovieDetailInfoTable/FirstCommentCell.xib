@@ -31,8 +31,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IZ8-pV-15Z">
-                        <rect key="frame" x="96" y="53" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="IZ8-pV-15Z">
+                        <rect key="frame" x="96" y="53" width="42" height="20.5"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="187" id="FLH-TV-55h"/>
                         </constraints>
@@ -49,14 +49,14 @@
                         <state key="normal" title="Button" image="btn_compose"/>
                     </button>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bye-8f-7b9">
-                        <rect key="frame" x="96" y="111" width="263" height="107"/>
+                        <rect key="frame" x="96" y="110.5" width="263" height="107.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrU-4C-LBl">
-                        <rect key="frame" x="96" y="82" width="263" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrU-4C-LBl">
+                        <rect key="frame" x="96" y="81.5" width="263" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -91,6 +91,7 @@
                     <constraint firstItem="aro-VT-nD1" firstAttribute="leading" secondItem="SJj-rG-Ppu" secondAttribute="leadingMargin" id="e6b-i8-AhC"/>
                     <constraint firstItem="4TI-xG-bZW" firstAttribute="top" secondItem="yzM-at-UcZ" secondAttribute="bottom" constant="8" id="epV-Ar-Kx0"/>
                     <constraint firstItem="bye-8f-7b9" firstAttribute="leading" secondItem="hrU-4C-LBl" secondAttribute="leading" id="gDm-WB-bId"/>
+                    <constraint firstItem="aZ7-83-C6j" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="SJj-rG-Ppu" secondAttribute="trailingMargin" id="jmN-tF-pNU"/>
                     <constraint firstItem="hrU-4C-LBl" firstAttribute="top" secondItem="IZ8-pV-15Z" secondAttribute="bottom" constant="8" id="k8b-iM-tm1"/>
                     <constraint firstItem="hrU-4C-LBl" firstAttribute="leading" secondItem="IZ8-pV-15Z" secondAttribute="leading" id="mbh-jX-6jf"/>
                     <constraint firstItem="bye-8f-7b9" firstAttribute="trailing" secondItem="SJj-rG-Ppu" secondAttribute="trailingMargin" id="mmP-Xg-4kw"/>

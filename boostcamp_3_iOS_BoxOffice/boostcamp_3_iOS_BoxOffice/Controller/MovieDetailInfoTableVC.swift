@@ -26,12 +26,39 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         }
     }
     
+    weak var indicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupIndicator()
         setupRefreshControl()
         setupTableView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         getMovie()
         getComments()
+    }
+    
+    private func setupIndicator() {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .whiteLarge
+        indicator.color = .gray
+        
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        
+        self.tableView.addSubview(indicator)
+        
+        self.tableView.addConstraints([
+            NSLayoutConstraint(item: indicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 37),
+            NSLayoutConstraint(item: indicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 37),
+            NSLayoutConstraint(item: indicator, attribute: .centerX, relatedBy: .equal, toItem: self.tableView, attribute: .centerX, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: indicator, attribute: .centerY, relatedBy: .equal, toItem: self.tableView, attribute: .centerY, multiplier: 1.0, constant: 0),
+            ])
+        
+        self.indicator = indicator
     }
     
     func setupRefreshControl() {
@@ -56,22 +83,32 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private func getMovie() {
         guard let movieId = movieId else {
+            self.alert("영화 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+                self.navigationController?.popViewController(animated: true)
+            }
             return
         }
         
+        self.indicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         DispatchQueue.global(qos: .userInitiated).async {
             Manager.getMovie(movieId: movieId) { (data, error) in
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+                    self.refreshControl?.isHidden = true
+                    self.indicator.stopAnimating()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
+                
                 guard let movie = data else {
                     DispatchQueue.main.async {
-                        self.alert("영화 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
-                            self.navigationController?.popViewController(animated: true)
-                        }
+                        self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
                     }
                     return
                 }
                 
                 DispatchQueue.main.async {
-                    self.refreshControl?.endRefreshing()
                     self.navigationItem.title = movie.title
                 }
                 
@@ -82,22 +119,29 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private func getComments() {
         guard let movieId = movieId else {
+            self.alert("한줄평 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+                self.navigationController?.popViewController(animated: true)
+            }
             return
         }
         
+        self.indicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        
         DispatchQueue.global(qos: .userInitiated).async {
             Manager.getComments(movieId: movieId) { (data, error) in
-                guard let comments = data else {
-                    DispatchQueue.main.async {
-                        self.alert("한줄평 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    }
-                    return
+                DispatchQueue.main.async {
+                    self.indicator.stopAnimating()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    self.refreshControl?.endRefreshing()
                 }
                 
-                DispatchQueue.main.async {
-                    self.refreshControl?.endRefreshing()
+                guard let comments = data else {
+                    DispatchQueue.main.async {
+                        self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
+                    }
+                    return
                 }
                 
                 self.comments = comments
@@ -144,6 +188,10 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         }
         
         guard let comments = self.comments else {
+            return UITableViewCell()
+        }
+        
+        if comments.count == 0 {
             return UITableViewCell()
         }
         
