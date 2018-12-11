@@ -101,13 +101,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DB44628A21BFF5E0002FFF7E /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		DB5EEC5A21BBBBD900659AB5 /* MovieDetailInfoTable */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +163,6 @@
 		DB78911D21BACE2E0063DCE5 /* Boostcamp_3_iOS_BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				DB44628A21BFF5E0002FFF7E /* New Group */,
 				DB78915021BB0D670063DCE5 /* Extension */,
 				DB78913421BAED570063DCE5 /* Model */,
 				DB78914921BB091A0063DCE5 /* View */,

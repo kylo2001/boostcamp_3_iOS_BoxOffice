@@ -56,25 +56,6 @@ class MainInfoCell: UITableViewCell {
             audience.text = String(movie.audience!).insertComma()
             
             //            cell.userRatingView.rating = (movie.userRating*5) / 10
-            
-            
-            
-//            if let image = cache.object(forKey: thumbImagePath as NSString) {
-//                self.movieThumbImage.image = image
-//            } else {
-//                NetworkManager.fetchImage(imageURL: thumbImagePath) { (data, error) in
-//                    guard let data = data else {
-//                        return
-//                    }
-//                    
-//                    DispatchQueue.main.async {
-//                        if let movieImage = UIImage(data: data) {
-//                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
-//                            self.movieThumbImage.image = movieImage
-//                        }
-//                    }
-//                }
-//            }
         }
     }
     

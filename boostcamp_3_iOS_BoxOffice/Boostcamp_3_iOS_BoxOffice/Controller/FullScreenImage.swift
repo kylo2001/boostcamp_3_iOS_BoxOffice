@@ -86,25 +86,5 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
                 self.fullScreenImageView.image = cachedImage
             }
         }
-        
-//        NetworkManager.fetchImage(imageURL: imageURL) { (data, error) in
-//            DispatchQueue.main.async {
-//                self.indicator.stopAnimating()
-//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//            }
-//
-//            guard let data = data else {
-//                DispatchQueue.main.async {
-//                    self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.\n다시 시도해주세요.") {
-//                        self.dismiss(animated: false, completion: nil)
-//                    }
-//                }
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.fullScreenImageView.image = UIImage(data: data)
-//            }
-//        }
     }
 }
