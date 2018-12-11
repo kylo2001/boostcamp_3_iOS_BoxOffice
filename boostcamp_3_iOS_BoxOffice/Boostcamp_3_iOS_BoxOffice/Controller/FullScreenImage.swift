@@ -12,11 +12,11 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
    
     // MARK: - Properties
     
-    weak var indicator: UIActivityIndicatorView!
+    public var path: String?
     
-    var path: String?
+    private weak var indicator: UIActivityIndicatorView!
     
-    lazy var fullScreenImageView: UIImageView = {
+    private lazy var fullScreenImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "img_placeholder"))
         imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         imageView.contentMode = .scaleAspectFit
@@ -75,7 +75,7 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
         self.indicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        DataProvider.downloadImage(path: imagePath) { (data, error) in
+        NetworkManager.downloadImage(path: imagePath) { (data, error) in
             DispatchQueue.main.async {
                 self.indicator.stopAnimating()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

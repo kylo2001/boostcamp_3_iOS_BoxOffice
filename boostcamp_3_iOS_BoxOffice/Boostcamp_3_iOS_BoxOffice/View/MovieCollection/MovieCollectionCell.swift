@@ -40,11 +40,7 @@ class MovieCollectionCell: UICollectionViewCell {
             if let image = cache.object(forKey: thumbImagePath as NSString) {
                 self.movieThumbImage.image = image
             } else {
-//                print("Loading image with path:", thumbImagePath)
-                
-                DataProvider.downloadImage(path: thumbImagePath) { (data, error) in
-//                    print("Finished download image data:", data ?? "")
-                    
+                NetworkManager.downloadImage(path: thumbImagePath) { (data, error) in
                     guard let data = data else {
                         return
                     }

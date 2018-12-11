@@ -12,18 +12,19 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     // MARK: - Properties
     
-    weak var indicator: UIActivityIndicatorView!
+    public var movieId: String?
     
-    var movieId: String?
+    private weak var indicator: UIActivityIndicatorView!
     
-    var movie: Movie? {
+    private var movie: Movie? {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
-    var comments: [Comment]? {
+    
+    private var comments: [Comment]? {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -68,7 +69,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         self.indicator = indicator
     }
     
-    func setupRefreshControl() {
+    private func setupRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -88,6 +89,17 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         self.registerCustomCells(nibNames: nibNames, forCellReuseIdentifiers: identifiers)
     }
     
+    @objc func presentFullScreenImage() {
+        guard let movie = self.movie else {
+            return
+        }
+        
+        let fullScreenImage = FullScreenImage()
+        fullScreenImage.path = movie.image
+        
+        self.present(fullScreenImage, animated: false, completion: nil)
+    }
+    
     // MARK: -
     
     private func getMovie() {
@@ -102,7 +114,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         DispatchQueue.global(qos: .userInitiated).async {
-            DataProvider.getMovie(movieId: movieId) { (data, error) in
+            NetworkManager.getMovie(movieId: movieId) { (data, error) in
                 DispatchQueue.main.async {
                     self.refreshControl?.endRefreshing()
                     self.refreshControl?.isHidden = true
@@ -139,7 +151,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         
         
         DispatchQueue.global(qos: .userInitiated).async {
-            DataProvider.getComments(movieId: movieId) { (data, error) in
+            NetworkManager.getComments(movieId: movieId) { (data, error) in
                 DispatchQueue.main.async {
                     self.indicator.stopAnimating()
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -184,17 +196,6 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         return false
     }
     
-    @objc func presentFullScreenImage() {
-        guard let movie = self.movie else {
-            return
-        }
-        
-        let fullScreenImage = FullScreenImage()
-        fullScreenImage.path = movie.image
-        
-        self.present(fullScreenImage, animated: false, completion: nil)
-    }
-    
     // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -218,12 +219,12 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
                 return UITableViewCell()
             }
             
-//            if cell.movieThumbImage.gestureRecognizers?.count ?? 0 == 0 {
-//                let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-//                tapGesture.delegate = self
-//                tapGesture.addTarget(self, action: #selector(presentFullScreenImageVC))
-//                cell.movieThumbImage.addGestureRecognizer(tapGesture)
-//            }
+            if cell.movieThumbImage.gestureRecognizers?.count ?? 0 == 0 {
+                let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+                tapGesture.delegate = self
+                tapGesture.addTarget(self, action: #selector(presentFullScreenImage))
+                cell.movieThumbImage.addGestureRecognizer(tapGesture)
+            }
             
             cell.movie = movie
             

@@ -31,6 +31,8 @@ class FirstCommentCell: UITableViewCell {
         }
     }
     
+    // MARK: - Lifecycle Methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         contents.isScrollEnabled = false

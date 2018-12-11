@@ -8,9 +8,12 @@
 
 import Foundation
 
-class DataProvider {
+class NetworkManager {
+    
+    // MARK: - Properties
+    
     enum Endpoints {
-        static let base = "http://connect-boxoffice.run.goorm.io/"
+        static let baseURL = "http://connect-boxoffice.run.goorm.io/"
         
         case getMovie(String)
         case getMovies(Int)
@@ -20,11 +23,11 @@ class DataProvider {
         var stringValue: String {
             switch self {
             case .getMovie(let movieId): // http://connect-boxoffice.run.goorm.io/movie?id=5a54c286e8a71d136fb5378e
-                return Endpoints.base + "movie?id=" + movieId
+                return Endpoints.baseURL + "movie?id=" + movieId
             case .getMovies(let orderType): //http://connect-boxoffice.run.goorm.io/movies?order_type=1
-                return Endpoints.base + "movies?order_type=" + String(orderType)
+                return Endpoints.baseURL + "movies?order_type=" + String(orderType)
             case .getComments(let movieId): // http://connect-boxoffice.run.goorm.io/comments?movie_id=5a54c286e8a71d136fb5378e
-                return Endpoints.base + "comments?movie_id=" + movieId
+                return Endpoints.baseURL + "comments?movie_id=" + movieId
             case .posterImage(let posterPath):
                 return posterPath
             }
@@ -62,8 +65,8 @@ class DataProvider {
         }
     }
     
-    class func getMovies(orderType: Int, completion: @escaping ([Movie]?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.getMovies(orderType).url, responseType: Movies.self) { response, error in
+    class func getMovies(orderType: MovieOrderType, completion: @escaping ([Movie]?, Error?) -> Void) {
+        taskForGETRequest(url: Endpoints.getMovies(orderType.rawValue).url, responseType: Movies.self) { response, error in
             guard let response = response else {
                 completion(nil, error)
                 return

@@ -8,11 +8,6 @@
 
 import Foundation
 
-//{
-//    "comments": [ Comment ],
-//    "movie_id": "5a54c286e8a71d136fb5378e"
-//}
-
 struct Comments: Codable {
     let comments: [Comment]
     let movieId: String

@@ -41,5 +41,15 @@ class MainTabBarController: UITabBarController {
         
         return navController
     }
+    
+    // MARK: - UITabBarControllerDelegate
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item.title == "Collection" {
+            
+        } else {
+            
+        }
+    }
 }
 

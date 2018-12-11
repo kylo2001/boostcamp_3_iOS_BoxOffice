@@ -10,14 +10,14 @@ import UIKit
 
 class MainInfoCell: UITableViewCell {
     
-    @IBOutlet private weak var movieThumbImage: UIImageView!
-    @IBOutlet private weak var movieTitle: UILabel!
-    @IBOutlet private weak var movieGradeImage: UIImageView!
-    @IBOutlet private weak var genreDuration: UILabel!
-    @IBOutlet private weak var movieOpeningDate: UILabel!
-    @IBOutlet private weak var reservationRate: UILabel!
-    @IBOutlet private weak var userRatingLabel: UILabel!
-    @IBOutlet private weak var audience: UILabel!
+    @IBOutlet weak var movieThumbImage: UIImageView!
+    @IBOutlet weak var movieTitle: UILabel!
+    @IBOutlet weak var movieGradeImage: UIImageView!
+    @IBOutlet weak var genreDuration: UILabel!
+    @IBOutlet weak var movieOpeningDate: UILabel!
+    @IBOutlet weak var reservationRate: UILabel!
+    @IBOutlet weak var userRatingLabel: UILabel!
+    @IBOutlet weak var audience: UILabel!
     
 //    @IBOutlet private weak var userRatingView: FloatRatingView!
     
@@ -54,7 +54,7 @@ class MainInfoCell: UITableViewCell {
             if let image = cache.object(forKey: thumbImagePath as NSString) {
                 self.movieThumbImage.image = image
             } else {
-                DataProvider.downloadImage(path: thumbImagePath) { (data, error) in
+                NetworkManager.downloadImage(path: thumbImagePath) { (data, error) in
                     guard let data = data else {
                         return
                     }
@@ -70,27 +70,15 @@ class MainInfoCell: UITableViewCell {
         }
     }
     
-    //MARK: - Lifecycle Methods
+    // MARK: - Lifecycle Methods
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupMovieThumbImageView()
+        self.movieThumbImage.isUserInteractionEnabled = true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.movie = nil
-    }
-    
-    private func setupMovieThumbImageView() {
-        self.movieThumbImage.isUserInteractionEnabled = true
-        
-        if self.movieThumbImage.gestureRecognizers?.count ?? 0 == 0 {
-            let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
-            tapGesture.delegate = self
-            tapGesture.addTarget(MovieDetailInfoTableVC.self, action: #selector(MovieDetailInfoTableVC.presentFullScreenImage))
-            self.movieThumbImage.addGestureRecognizer(tapGesture)
-        }
-        
     }
 }
