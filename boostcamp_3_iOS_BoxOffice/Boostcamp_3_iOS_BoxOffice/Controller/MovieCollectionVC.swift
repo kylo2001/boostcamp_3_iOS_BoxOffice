@@ -47,7 +47,7 @@ class MovieCollectionVC: UICollectionViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getMovies()
+        fetchMovies()
     }
     
     // MARK: - Setup Methods
@@ -91,8 +91,7 @@ class MovieCollectionVC: UICollectionViewController {
                 self.movieOrderType.change(to: newOrderType)
             }
             
-            self.getMovies()
-            self.setNavigationItemTitle()
+            self.fetchMovies()
         }
         
         self.actionSheet(
@@ -107,30 +106,28 @@ class MovieCollectionVC: UICollectionViewController {
         self.navigationItem.title = movieOrderType.navigationItemTitle
     }
     
-    // MARK: -
+    // MARK: - Fetch Mrthod
     
-    private func getMovies() {
+    private func fetchMovies() {
         self.indicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            NetworkManager.getMovies(orderType: self.movieOrderType) { (data, error) in
-                DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-                
-                guard let movies = data else {
-                    DispatchQueue.main.async {
-                        self.alert("네트워크가 좋지 않습니다..\n'Table'탭으로 이동하고 아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
-                            self.navigationItem.title = ""
-                        }
-                    }
-                    return
-                }
-                
-                self.movies = movies
+        NetworkManager.fetchMovies(orderType: self.movieOrderType) { (data, error) in
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            
+            guard let movies = data else {
+                DispatchQueue.main.async {
+                    self.alert("네트워크가 좋지 않습니다..\n'Table'탭으로 이동하고 아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                        self.navigationItem.title = ""
+                    }
+                }
+                return
+            }
+            
+            self.movies = movies
         }
     }
     
@@ -179,7 +176,7 @@ extension MovieCollectionVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width / 2
-        return CGSize(width: width, height: (width * 337.5) / 187.5 )
+        return CGSize(width: width, height: (width * 337.5) / 187.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

@@ -15,8 +15,6 @@ class MovieTableCell: UITableViewCell {
     @IBOutlet private weak var movieSimpleInfo: UILabel!
     @IBOutlet private weak var movieOpeningDate: UILabel!
     
-    var cache: NSCache = NSCache<NSString, UIImage>()
-    
     var movie: Movie? {
         didSet {
             guard let movie = movie else {
@@ -28,31 +26,20 @@ class MovieTableCell: UITableViewCell {
                 return
             }
             
-            guard let thumbImagePath = movie.thumb else {
+            guard let thumbImageURL = movie.thumb else {
                 return
+            }
+            
+            ImageCache.getImage(from: thumbImageURL) { (image) in
+                DispatchQueue.main.async {
+                    self.movieThumbImage.image = image
+                }
             }
             
             movieTitle.text = movie.title
             movieSimpleInfo.text = movie.simpleTableInfo
             movieOpeningDate.text = movie.openingDate
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
-            
-            if let image = cache.object(forKey: thumbImagePath as NSString) {
-                self.movieThumbImage.image = image
-            } else {
-                NetworkManager.downloadImage(path: thumbImagePath) { (data, error) in
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if let movieImage = UIImage(data: data) {
-                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
-                            self.movieThumbImage.image = movieImage
-                        }
-                    }
-                }
-            }
         }
     }
     

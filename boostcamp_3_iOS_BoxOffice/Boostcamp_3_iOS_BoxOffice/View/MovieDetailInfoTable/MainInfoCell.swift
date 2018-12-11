@@ -41,6 +41,12 @@ class MainInfoCell: UITableViewCell {
                 return
             }
             
+            ImageCache.getImage(from: thumbImagePath) { (cachedImage) in
+                DispatchQueue.main.async {
+                    self.movieThumbImage.image = cachedImage
+                }
+            }
+            
             movieTitle.text = movie.title
             genreDuration.text = movie.genre! + "/" + String(movie.duration!) + "분"
             movieOpeningDate.text = movie.date + "개봉"
@@ -51,22 +57,24 @@ class MainInfoCell: UITableViewCell {
             
             //            cell.userRatingView.rating = (movie.userRating*5) / 10
             
-            if let image = cache.object(forKey: thumbImagePath as NSString) {
-                self.movieThumbImage.image = image
-            } else {
-                NetworkManager.downloadImage(path: thumbImagePath) { (data, error) in
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if let movieImage = UIImage(data: data) {
-                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
-                            self.movieThumbImage.image = movieImage
-                        }
-                    }
-                }
-            }
+            
+            
+//            if let image = cache.object(forKey: thumbImagePath as NSString) {
+//                self.movieThumbImage.image = image
+//            } else {
+//                NetworkManager.fetchImage(imageURL: thumbImagePath) { (data, error) in
+//                    guard let data = data else {
+//                        return
+//                    }
+//                    
+//                    DispatchQueue.main.async {
+//                        if let movieImage = UIImage(data: data) {
+//                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
+//                            self.movieThumbImage.image = movieImage
+//                        }
+//                    }
+//                }
+//            }
         }
     }
     

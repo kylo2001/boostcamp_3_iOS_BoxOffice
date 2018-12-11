@@ -39,7 +39,7 @@ class MovieTableVC: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getMovies()
+        fetchMovies()
     }
     
     // MARK: - Setup Methods
@@ -76,7 +76,7 @@ class MovieTableVC: UITableViewController {
     }
     
     @objc func handleRefreshControl() {
-        getMovies()
+        fetchMovies()
     }
     
     private func setupNavigationBar() {
@@ -93,8 +93,7 @@ class MovieTableVC: UITableViewController {
                 self.movieOrderType.change(to: newOrderType)
             }
             
-            self.getMovies()
-            self.setNavigationItemTitle()
+            self.fetchMovies()
         }
         
         self.actionSheet(
@@ -109,36 +108,33 @@ class MovieTableVC: UITableViewController {
         self.navigationItem.title = movieOrderType.navigationItemTitle
     }
     
-    // MARK: -
+    // MARK: - Fetch Mrthod
     
-    private func getMovies() {
+    private func fetchMovies() {
         self.indicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            NetworkManager.getMovies(orderType: self.movieOrderType) { (data, error) in
-                DispatchQueue.main.async {
-                    self.refreshControl?.endRefreshing()
-                    self.refreshControl?.isHidden = true
-                    self.indicator.stopAnimating()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-                
-                guard let movies = data else {
-                    DispatchQueue.main.async {
-                        // 1. movie 데이터의 키값 매칭에 실패했을 경우
-                        // 2. 정렬 순서와 맞지 않은 영화 정보를 가지고 있는 경우
-                        // 3. 네트워크가 끊어졌을 경우
-                        self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
-                            self.navigationItem.title = ""
-                        }
-                    }
-                    return
-                }
-                self.movies = movies
+        NetworkManager.fetchMovies(orderType: self.movieOrderType) { (response, error) in
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl?.endRefreshing()
+                self.refreshControl?.isHidden = true
             }
+            
+            guard let movies = response else {
+                DispatchQueue.main.async {
+                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                        self.navigationItem.title = ""
+                    }
+                }
+                return
+            }
+            
+            self.movies = movies
         }
     }
+    
     
     // MARK: - UITableViewDataSource
     

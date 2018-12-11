@@ -13,6 +13,6 @@ extension String {
         if self.count == 0 {
             return self
         }
-            return String(self[self.startIndex]).capitalized + String(self.dropFirst())
-        }
+        return String(self[self.startIndex]).capitalized + String(self.dropFirst())
+    }
 }

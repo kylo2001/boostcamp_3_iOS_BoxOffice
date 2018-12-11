@@ -12,7 +12,7 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
    
     // MARK: - Properties
     
-    public var path: String?
+    public var imageURL: String?
     
     private weak var indicator: UIActivityIndicatorView!
     
@@ -32,6 +32,10 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         setupIndicator()
         setupTapGesture()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupImageView()
     }
     
@@ -68,31 +72,39 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func setupImageView() {
-        guard let imagePath = path else {
+        guard let imageURL = imageURL else {
             return
         }
         
         self.indicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        NetworkManager.downloadImage(path: imagePath) { (data, error) in
+        ImageCache.getImage(from: imageURL) { (cachedImage) in
             DispatchQueue.main.async {
                 self.indicator.stopAnimating()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.\n다시 시도해주세요.") {
-                        self.dismiss(animated: false, completion: nil)
-                    }
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.fullScreenImageView.image = UIImage(data: data)
+                self.fullScreenImageView.image = cachedImage
             }
         }
+        
+//        NetworkManager.fetchImage(imageURL: imageURL) { (data, error) in
+//            DispatchQueue.main.async {
+//                self.indicator.stopAnimating()
+//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            }
+//
+//            guard let data = data else {
+//                DispatchQueue.main.async {
+//                    self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.\n다시 시도해주세요.") {
+//                        self.dismiss(animated: false, completion: nil)
+//                    }
+//                }
+//                return
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.fullScreenImageView.image = UIImage(data: data)
+//            }
+//        }
     }
 }

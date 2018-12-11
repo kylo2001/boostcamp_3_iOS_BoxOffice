@@ -8,28 +8,28 @@
 
 import Foundation
 
-class NetworkManager {
+struct NetworkManager {
     
     // MARK: - Properties
     
-    enum Endpoints {
-        static let baseURL = "http://connect-boxoffice.run.goorm.io/"
+    enum URLString {
+        static let base = "http://connect-boxoffice.run.goorm.io/"
         
-        case getMovie(String)
-        case getMovies(Int)
-        case getComments(String)
-        case posterImage(String)
+        case movie(String)
+        case movies(Int)
+        case comments(String)
+        case image(String)
         
         var stringValue: String {
             switch self {
-            case .getMovie(let movieId): // http://connect-boxoffice.run.goorm.io/movie?id=5a54c286e8a71d136fb5378e
-                return Endpoints.baseURL + "movie?id=" + movieId
-            case .getMovies(let orderType): //http://connect-boxoffice.run.goorm.io/movies?order_type=1
-                return Endpoints.baseURL + "movies?order_type=" + String(orderType)
-            case .getComments(let movieId): // http://connect-boxoffice.run.goorm.io/comments?movie_id=5a54c286e8a71d136fb5378e
-                return Endpoints.baseURL + "comments?movie_id=" + movieId
-            case .posterImage(let posterPath):
-                return posterPath
+            case .movie(let movieId): // http://connect-boxoffice.run.goorm.io/movie?id=5a54c286e8a71d136fb5378e
+                return URLString.base + "movie?id=" + movieId
+            case .movies(let orderType): //http://connect-boxoffice.run.goorm.io/movies?order_type=1
+                return URLString.base + "movies?order_type=" + String(orderType)
+            case .comments(let movieId): // http://connect-boxoffice.run.goorm.io/comments?movie_id=5a54c286e8a71d136fb5378e
+                return URLString.base + "comments?movie_id=" + movieId
+            case .image(let imageURL):
+                return imageURL
             }
         }
         
@@ -38,25 +38,37 @@ class NetworkManager {
         }
     }
     
-    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
+    enum FetchResult {
+        case success(Data)
+        case failure
+    }
+    
+    // MARK: - GET Request mothod
+    
+    static func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
+            let result = fetchResult(data: data, response: response, error: error)
+            
+            switch result {
+            case .failure:
                 completion(nil, error)
-                return
-            }
-            let decoder = JSONDecoder()
-            do {
-                let responseObject = try decoder.decode(ResponseType.self, from: data)
-                completion(responseObject, nil)
-            } catch {
-                completion(nil, error)
+                
+            case .success(let data):
+                do {
+                    let responseObject = try JSONDecoder().decode(ResponseType.self, from: data)
+                    completion(responseObject, nil)
+                } catch {
+                    completion(nil, error)
+                }
             }
         }
         task.resume()
     }
     
-    class func getMovie(movieId: String, completion: @escaping (Movie?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.getMovie(movieId).url, responseType: Movie.self) { response, error in
+    // MARK: - Fetch Methods
+    
+    static func fetchMovie(movieId: String, completion: @escaping (Movie?, Error?) -> Void) {
+        taskForGETRequest(url: URLString.movie(movieId).url, responseType: Movie.self) { response, error in
             guard let response = response else {
                 completion(nil, error)
                 return
@@ -65,8 +77,8 @@ class NetworkManager {
         }
     }
     
-    class func getMovies(orderType: MovieOrderType, completion: @escaping ([Movie]?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.getMovies(orderType.rawValue).url, responseType: Movies.self) { response, error in
+    static func fetchMovies(orderType: MovieOrderType, completion: @escaping ([Movie]?, Error?) -> Void) {
+        taskForGETRequest(url: URLString.movies(orderType.rawValue).url, responseType: Movies.self) { response, error in
             guard let response = response else {
                 completion(nil, error)
                 return
@@ -75,8 +87,8 @@ class NetworkManager {
         }
     }
     
-    class func getComments(movieId: String, completion: @escaping ([Comment]?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.getComments(movieId).url, responseType: Comments.self) { response, error in
+    static func fetchComments(movieId: String, completion: @escaping ([Comment]?, Error?) -> Void) {
+        taskForGETRequest(url: URLString.comments(movieId).url, responseType: Comments.self) { response, error in
             guard let response = response else {
                 completion(nil, error)
                 return
@@ -85,15 +97,30 @@ class NetworkManager {
         }
     }
     
-    class func downloadImage(path: String, completion: @escaping (Data?, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: Endpoints.posterImage(path).url) { data, _, error  in
-            guard let data = data else {
+    static func fetchImage(imageURL: String, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: URLString.image(imageURL).url) { data, response, error  in
+            let result = fetchResult(data: data, response: response, error: error)
+            switch result {
+            case .failure:
                 completion(nil, error)
-                return
+                
+            case .success(let data):
+                completion(data, nil)
             }
-            completion(data, nil)
         }
         task.resume()
+    }
+    
+    static private func fetchResult(data: Data?, response: URLResponse?, error: Error?) -> FetchResult {
+        guard let fetchedData = data, error == nil else {
+            return .failure
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            return .failure
+        }
+        
+        return .success(fetchedData)
     }
 }
 
