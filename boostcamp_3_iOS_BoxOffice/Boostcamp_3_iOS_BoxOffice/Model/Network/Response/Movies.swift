@@ -8,11 +8,6 @@
 
 import Foundation
 
-//{
-//    "order_type": 1,
-//    "movies": [ Movie ]
-//}
-
 struct Movies: Codable {
     let orderType: Int
     let movies: [Movie]

@@ -32,31 +32,34 @@ class MovieCollectionCell: UICollectionViewCell {
                 return
             }
             
+            ImageCache.getImage(from: thumbImagePath) { (cachedImage) in
+                DispatchQueue.main.async {
+                    self.movieThumbImage.image = cachedImage
+                }
+            }
+            
             movieTitle.text = movie.title
             movieSimpleInfo.text = movie.simpleCollectionInfo
             movieOpeningDate.text = movie.openingDate
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
             
-            if let image = cache.object(forKey: thumbImagePath as NSString) {
-                self.movieThumbImage.image = image
-            } else {
-//                print("Loading image with path:", thumbImagePath)
-                
-                DataProvider.downloadImage(path: thumbImagePath) { (data, error) in
-//                    print("Finished download image data:", data ?? "")
-                    
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if let movieImage = UIImage(data: data) {
-                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
-                            self.movieThumbImage.image = movieImage
-                        }
-                    }
-                }
-            }
+            
+//            if let image = cache.object(forKey: thumbImagePath as NSString) {
+//                self.movieThumbImage.image = image
+//            } else {
+//                NetworkManager.fetchImage(imageURL: thumbImagePath) { (data, error) in
+//                    guard let data = data else {
+//                        return
+//                    }
+//
+//                    DispatchQueue.main.async {
+//                        if let movieImage = UIImage(data: data) {
+//                            self.cache.setObject(movieImage, forKey: thumbImagePath as NSString)
+//                            self.movieThumbImage.image = movieImage
+//                        }
+//                    }
+//                }
+//            }
         }
     }
     

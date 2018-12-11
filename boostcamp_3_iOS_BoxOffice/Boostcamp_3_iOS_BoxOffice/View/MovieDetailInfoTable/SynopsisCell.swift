@@ -22,6 +22,8 @@ class SynopsisCell: UITableViewCell {
         }
     }
     
+    // MARK: - Lifecycle Methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.synopsisTextView.isScrollEnabled = false

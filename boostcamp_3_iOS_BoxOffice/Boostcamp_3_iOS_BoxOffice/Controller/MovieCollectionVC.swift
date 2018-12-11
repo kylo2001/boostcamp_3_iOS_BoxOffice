@@ -8,18 +8,20 @@
 
 import UIKit
 
-class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class MovieCollectionVC: UICollectionViewController {
     
     // MARK: - Properties
     
-    weak var indicator: UIActivityIndicatorView!
+    public var movieOrderType: MovieOrderType = .reservation
     
-    let cellId: String = "movieCollectionCell"
+    private weak var indicator: UIActivityIndicatorView!
     
-    var movies: [Movie] = [] {
+    private let cellId: String = "movieCollectionCell"
+    
+    private var movies: [Movie] = [] {
         didSet {
             DispatchQueue.main.async {
-                self.setMovieOrderAndNavigationTitle()
+                self.setNavigationItemTitle()
                 self.collectionView.reloadData()
             }
         }
@@ -45,7 +47,7 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getMovies()
+        fetchMovies()
     }
     
     // MARK: - Setup Methods
@@ -77,69 +79,55 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         
         self.registerCustomCells(nibNames: ["MovieCollectionCell"], forCellReuseIdentifiers: [cellId])
         
-        let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpSortingBarButtonItem))
+        let sortingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpMovieOrderSettingButton))
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
-    @objc func touchUpSortingBarButtonItem(_ sender: UIBarButtonItem) {
+    @objc func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
         let handler: (UIAlertAction) -> Void
         
         handler = { (action: UIAlertAction) in
-            switch action.title {
-            case "예매율":
-                Sort.shared.orderType = 0
-            case "큐레이션":
-                Sort.shared.orderType = 1
-            case "개봉일":
-                Sort.shared.orderType = 2
-            default:
-                print("취소")
+            if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
+                self.movieOrderType.change(to: newOrderType)
             }
             
-            self.getMovies()
-            self.setMovieOrderAndNavigationTitle()
+            self.fetchMovies()
         }
         
-        self.actionSheet(title: "정렬방식 선택",message: "영화를 어떤 순서로 정렬할까요?", actions: ["예매율", "큐레이션", "개봉일"], handler: handler)
+        self.actionSheet(
+            title: "정렬방식 선택",
+            message: "영화를 어떤 순서로 정렬할까요?",
+            actions: ["예매율", "큐레이션", "개봉일"],
+            handler: handler
+        )
     }
     
-    private func setMovieOrderAndNavigationTitle() {
-        switch Sort.shared.orderType {
-        case 0:
-            self.navigationItem.title = "예매율순"
-        case 1:
-            self.navigationItem.title = "큐레이션"
-        case 2:
-            self.navigationItem.title = "개봉일순"
-        default:
-            break
-        }
+    private func setNavigationItemTitle() {
+        self.navigationItem.title = movieOrderType.navigationItemTitle
     }
     
-    // MARK: -
+    // MARK: - Fetch Mrthod
     
-    private func getMovies() {
+    private func fetchMovies() {
         self.indicator.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            DataProvider.getMovies(orderType: Sort.shared.orderType) { (data, error) in
-                DispatchQueue.main.async {
-                    self.indicator.stopAnimating()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-                
-                guard let movies = data else {
-                    DispatchQueue.main.async {
-                        self.alert("네트워크가 좋지 않습니다..\n'Table'탭으로 이동하고 아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
-                            self.navigationItem.title = ""
-                        }
-                    }
-                    return
-                }
-                
-                self.movies = movies
+        NetworkManager.fetchMovies(orderType: self.movieOrderType) { (data, error) in
+            DispatchQueue.main.async {
+                self.indicator.stopAnimating()
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
+            
+            guard let movies = data else {
+                DispatchQueue.main.async {
+                    self.alert("네트워크가 좋지 않습니다..\n'Table'탭으로 이동하고 아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                        self.navigationItem.title = ""
+                    }
+                }
+                return
+            }
+            
+            self.movies = movies
         }
     }
     
@@ -160,20 +148,7 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         return cell
     }
     
-    // MARK: - UICollectionViewDelegateFlowLayout
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width / 2
-        return CGSize(width: width, height: (width * 337.5) / 187.5 )
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
-    }
     
     // MARK: - UICollectionViewDelegate
     
@@ -192,5 +167,23 @@ class MovieCollectionVC: UICollectionViewController, UICollectionViewDelegateFlo
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension MovieCollectionVC: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width / 2
+        return CGSize(width: width, height: (width * 337.5) / 187.5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
     }
 }

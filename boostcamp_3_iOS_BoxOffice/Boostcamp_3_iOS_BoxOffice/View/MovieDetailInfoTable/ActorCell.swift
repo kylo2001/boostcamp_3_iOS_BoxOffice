@@ -26,6 +26,8 @@ class ActorCell: UITableViewCell {
         }
     }
     
+    // MARK: - Lifecycle Methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
