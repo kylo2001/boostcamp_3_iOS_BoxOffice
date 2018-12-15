@@ -36,9 +36,9 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupIndicator()
-        setupRefreshControl()
-        setupTableView()
+        initIndicator()
+        initRefreshControl()
+        initTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,9 +47,9 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         fetchComments()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupIndicator() {
+    private func initIndicator() {
         let indicator = UIActivityIndicatorView()
         indicator.style = .whiteLarge
         indicator.color = .gray
@@ -69,18 +69,13 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         self.indicator = indicator
     }
     
-    private func setupRefreshControl() {
+    private func initRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
-        fetchMovie()
-        fetchComments()
-    }
-    
-    private func setupTableView() {
+    private func initTableView() {
         tableView.tableFooterView = UIView()
         tableView.separatorColor = .clear
         let nibNames = ["MainInfoCell", "SynopsisCell", "ActorCell", "FirstCommentCell", "CommentCell"]
@@ -89,7 +84,14 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         self.registerCustomCells(nibNames: nibNames, forCellReuseIdentifiers: identifiers)
     }
     
-    @objc func presentFullScreenImage() {
+    // MARK: - Helper Methods
+    
+    @objc private func handleRefreshControl() {
+        fetchMovie()
+        fetchComments()
+    }
+    
+    @objc private func presentFullScreenImage() {
         guard let movie = self.movie else {
             return
         }
@@ -100,7 +102,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         self.present(fullScreenImage, animated: false, completion: nil)
     }
     
-    // MARK: - Fetch Mrthods
+    // MARK: - Fetch Methods
     
     private func fetchMovie() {
         guard let movieId = movieId else {

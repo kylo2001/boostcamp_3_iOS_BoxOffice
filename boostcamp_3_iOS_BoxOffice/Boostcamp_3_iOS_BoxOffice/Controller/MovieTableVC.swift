@@ -12,7 +12,14 @@ class MovieTableVC: UITableViewController {
 
     // MARK: - Properties
     
-    public var movieOrderType: MovieOrderType = .reservation
+    private var movieOrderType: MovieOrderType = .reservation {
+        didSet {
+            DispatchQueue.main.async {
+                self.setNavigationItemTitle()
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     private weak var indicator: UIActivityIndicatorView!
     
@@ -31,10 +38,11 @@ class MovieTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupIndicator()
-        setupRefreshControl()
-        setupNavigationBar()
+        initTableView()
+        initIndicator()
+        initRefreshControl()
+        initNavigationBar()
+        initNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,14 +50,14 @@ class MovieTableVC: UITableViewController {
         fetchMovies()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupTableView() {
+    private func initTableView() {
         tableView.tableFooterView = UIView()
         self.registerCustomCells(nibNames: ["MovieTableCell"], forCellReuseIdentifiers: [cellId])
     }
     
-    private func setupIndicator() {
+    private func initIndicator() {
         let indicator = UIActivityIndicatorView()
         indicator.style = .whiteLarge
         indicator.color = .gray
@@ -69,31 +77,48 @@ class MovieTableVC: UITableViewController {
         self.indicator = indicator
     }
     
-    private func setupRefreshControl() {
+    private func initRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
-        fetchMovies()
-    }
-    
-    private func setupNavigationBar() {
+    private func initNavigationBar() {
         self.navigationItem.title = ""
         let movieOrderSettingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpMovieOrderSettingButton))
         navigationItem.rightBarButtonItems = [movieOrderSettingButton]
     }
     
-    @objc func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
+    private func initNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(setMovieOrderType(_:)),
+                                               name: NSNotification.Name(rawValue: "MovieOrderType"),
+                                               object: nil)
+    }
+    
+    // MARK: - Setup Method
+    
+    private func setNavigationItemTitle() {
+        self.navigationItem.title = movieOrderType.navigationItemTitle
+    }
+    
+    // MARK: - Helper Methods
+    
+    @objc private func handleRefreshControl() {
+        fetchMovies()
+    }
+    
+    @objc private func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
         let handler: (UIAlertAction) -> Void
         
         handler = { (action: UIAlertAction) in
             if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
-                self.movieOrderType.change(to: newOrderType)
+                //                self.movieOrderType.change(to: newOrderType)
+                //                self.fetchMovies()
+                
+                // Notification에 object와 dictionary 형태의 userInfo를 같이 실어서 보낸다.
+                NotificationCenter.default.post(name: Notification.Name("MovieOrderType"), object: nil, userInfo: ["movieOrderType": self.movieOrderType])
             }
-            
-            self.fetchMovies()
         }
         
         self.actionSheet(
@@ -104,11 +129,16 @@ class MovieTableVC: UITableViewController {
         )
     }
     
-    private func setNavigationItemTitle() {
-        self.navigationItem.title = movieOrderType.navigationItemTitle
+    @objc private func setMovieOrderType(_ notification: Notification) {
+        guard let newOrderType: MovieOrderType = notification.userInfo?["movieOrderType"] as? MovieOrderType else { return }
+        print("newOrderType :", newOrderType)
+        
+        if self.movieOrderType != newOrderType {
+            self.movieOrderType.change(to: newOrderType)
+        }
     }
     
-    // MARK: - Fetch Mrthod
+    // MARK: - Fetch Method
     
     private func fetchMovies() {
         self.indicator.startAnimating()

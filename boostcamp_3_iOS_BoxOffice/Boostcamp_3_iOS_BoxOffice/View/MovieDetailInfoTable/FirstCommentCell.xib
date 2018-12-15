@@ -61,9 +61,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZ7-83-C6j">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZ7-83-C6j" customClass="UIFloatRatingView" customModule="boostcamp_3_iOS_BoxOffice" customModuleProvider="target">
                         <rect key="frame" x="146" y="53" width="68.5" height="21"/>
-                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="1qP-Vl-FVW"/>
                             <constraint firstAttribute="width" secondItem="aZ7-83-C6j" secondAttribute="height" multiplier="26:8" id="sf6-BF-5Xq"/>
@@ -106,6 +105,7 @@
                 <outlet property="addCommentButton" destination="4TI-xG-bZW" id="kCl-R3-4co"/>
                 <outlet property="contents" destination="bye-8f-7b9" id="OjD-I2-MZa"/>
                 <outlet property="timestamp" destination="hrU-4C-LBl" id="nUZ-sc-Nya"/>
+                <outlet property="userRating" destination="aZ7-83-C6j" id="Biw-gR-tcf"/>
                 <outlet property="writerName" destination="IZ8-pV-15Z" id="04o-jl-EXL"/>
             </connections>
             <point key="canvasLocation" x="405.60000000000002" y="84.107946026986511"/>

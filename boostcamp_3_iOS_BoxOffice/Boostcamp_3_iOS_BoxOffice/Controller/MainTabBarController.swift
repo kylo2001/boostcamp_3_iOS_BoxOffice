@@ -14,12 +14,12 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewControllers()
+        InitViewControllers()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupViewControllers() {
+    private func InitViewControllers() {
         let flowLayout = UICollectionViewFlowLayout()
         
         viewControllers = [
@@ -40,16 +40,6 @@ class MainTabBarController: UITabBarController {
         navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
         return navController
-    }
-    
-    // MARK: - UITabBarControllerDelegate
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.title == "Collection" {
-            
-        } else {
-            
-        }
     }
 }
 

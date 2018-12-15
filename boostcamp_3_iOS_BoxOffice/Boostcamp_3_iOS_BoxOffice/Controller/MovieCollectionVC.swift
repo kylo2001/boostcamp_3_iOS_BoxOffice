@@ -12,7 +12,14 @@ class MovieCollectionVC: UICollectionViewController {
     
     // MARK: - Properties
     
-    public var movieOrderType: MovieOrderType = .reservation
+    private var movieOrderType: MovieOrderType = .reservation {
+        didSet {
+            DispatchQueue.main.async {
+                self.setNavigationItemTitle()
+                self.collectionView.reloadData()
+            }
+        }
+    }
     
     private weak var indicator: UIActivityIndicatorView!
     
@@ -41,8 +48,9 @@ class MovieCollectionVC: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupIndicator()
-        setupCollectionView()
+        initIndicator()
+        initCollectionView()
+        initNotification()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -50,9 +58,9 @@ class MovieCollectionVC: UICollectionViewController {
         fetchMovies()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupIndicator() {
+    private func initIndicator() {
         let indicator = UIActivityIndicatorView()
         indicator.style = .whiteLarge
         indicator.color = .gray
@@ -71,7 +79,7 @@ class MovieCollectionVC: UICollectionViewController {
         self.indicator = indicator
     }
     
-    private func setupCollectionView() {
+    private func initCollectionView() {
         self.navigationItem.title = ""
         collectionView?.delegate = self
         collectionView?.dataSource = self
@@ -83,15 +91,32 @@ class MovieCollectionVC: UICollectionViewController {
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
-    @objc func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
+    private func initNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(setMovieOrderType(_:)),
+                                               name: NSNotification.Name(rawValue: "MovieOrderType"),
+                                               object: nil)
+    }
+    
+    // MARK: - Setup Method
+    
+    private func setNavigationItemTitle() {
+        self.navigationItem.title = movieOrderType.navigationItemTitle
+    }
+    
+    // MARK: - Helper Methods
+    
+    @objc private func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
         let handler: (UIAlertAction) -> Void
         
         handler = { (action: UIAlertAction) in
             if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
-                self.movieOrderType.change(to: newOrderType)
+                //                self.movieOrderType.change(to: newOrderType)
+                //                self.fetchMovies()
+                
+                // Notification에 object와 dictionary 형태의 userInfo를 같이 실어서 보낸다.
+                NotificationCenter.default.post(name: Notification.Name("MovieOrderType"), object: nil, userInfo: ["movieOrderType": self.movieOrderType])
             }
-            
-            self.fetchMovies()
         }
         
         self.actionSheet(
@@ -102,11 +127,16 @@ class MovieCollectionVC: UICollectionViewController {
         )
     }
     
-    private func setNavigationItemTitle() {
-        self.navigationItem.title = movieOrderType.navigationItemTitle
+    @objc private func setMovieOrderType(_ notification: Notification) {
+        guard let newOrderType: MovieOrderType = notification.userInfo?["movieOrderType"] as? MovieOrderType else { return }
+        print("newOrderType :", newOrderType)
+        
+        if self.movieOrderType != newOrderType {
+            self.movieOrderType.change(to: newOrderType)
+        }
     }
     
-    // MARK: - Fetch Mrthod
+    // MARK: - Fetch Method
     
     private func fetchMovies() {
         self.indicator.startAnimating()
