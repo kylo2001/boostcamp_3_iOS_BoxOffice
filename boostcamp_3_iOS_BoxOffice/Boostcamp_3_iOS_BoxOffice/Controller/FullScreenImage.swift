@@ -30,8 +30,8 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupIndicator()
-        setupTapGesture()
+        initIndicator()
+        initTapGesture()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,9 +39,9 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
         setupImageView()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupIndicator() {
+    private func initIndicator() {
         let indicator = UIActivityIndicatorView()
         indicator.style = .whiteLarge
         indicator.color = .gray
@@ -60,16 +60,20 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
         self.indicator = indicator
     }
     
-    private func setupTapGesture() {
+    private func initTapGesture() {
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
         tapGesture.delegate = self
         tapGesture.addTarget(self, action: #selector(dismissCurrentVC))
         self.fullScreenImageView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func dismissCurrentVC() {
+    // MARK: - Helper Method
+    
+    @objc private func dismissCurrentVC() {
         self.dismiss(animated: false, completion: nil)
     }
+    
+    // MARK: - Setup Method
     
     private func setupImageView() {
         guard let imageURL = imageURL else {
@@ -86,25 +90,5 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
                 self.fullScreenImageView.image = cachedImage
             }
         }
-        
-//        NetworkManager.fetchImage(imageURL: imageURL) { (data, error) in
-//            DispatchQueue.main.async {
-//                self.indicator.stopAnimating()
-//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//            }
-//
-//            guard let data = data else {
-//                DispatchQueue.main.async {
-//                    self.alert(error?.localizedDescription ?? "이미지를 받아오지 못했습니다.\n다시 시도해주세요.") {
-//                        self.dismiss(animated: false, completion: nil)
-//                    }
-//                }
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.fullScreenImageView.image = UIImage(data: data)
-//            }
-//        }
     }
 }

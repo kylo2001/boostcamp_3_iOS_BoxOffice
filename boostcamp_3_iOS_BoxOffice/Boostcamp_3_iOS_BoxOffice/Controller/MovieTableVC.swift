@@ -31,10 +31,10 @@ class MovieTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupIndicator()
-        setupRefreshControl()
-        setupNavigationBar()
+        initTableView()
+        initIndicator()
+        initRefreshControl()
+        initNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,14 +42,14 @@ class MovieTableVC: UITableViewController {
         fetchMovies()
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Initialization Methods
     
-    private func setupTableView() {
+    private func initTableView() {
         tableView.tableFooterView = UIView()
         self.registerCustomCells(nibNames: ["MovieTableCell"], forCellReuseIdentifiers: [cellId])
     }
     
-    private func setupIndicator() {
+    private func initIndicator() {
         let indicator = UIActivityIndicatorView()
         indicator.style = .whiteLarge
         indicator.color = .gray
@@ -69,31 +69,48 @@ class MovieTableVC: UITableViewController {
         self.indicator = indicator
     }
     
-    private func setupRefreshControl() {
+    private func initRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
     
-    @objc func handleRefreshControl() {
-        fetchMovies()
-    }
-    
-    private func setupNavigationBar() {
+    private func initNavigationBar() {
         self.navigationItem.title = ""
         let movieOrderSettingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(touchUpMovieOrderSettingButton))
         navigationItem.rightBarButtonItems = [movieOrderSettingButton]
     }
     
-    @objc func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
+    // MARK: - Setup Method
+    
+    private func setNavigationItemTitle() {
+        self.navigationItem.title = movieOrderType.navigationItemTitle
+    }
+    
+    // MARK: - Helper Methods
+    
+    @objc private func handleRefreshControl() {
+        fetchMovies()
+    }
+    
+    @objc private func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
         let handler: (UIAlertAction) -> Void
         
         handler = { (action: UIAlertAction) in
             if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
                 self.movieOrderType.change(to: newOrderType)
+                self.fetchMovies()
+                
+                guard let destination = self.tabBarController?.viewControllers?[1] as? UINavigationController else {
+                    return
+                }
+                
+                guard let movieCollectionVC = destination.rootViewController as? MovieCollectionVC else {
+                    return
+                }
+                
+                movieCollectionVC.movieOrderType = self.movieOrderType
             }
-            
-            self.fetchMovies()
         }
         
         self.actionSheet(
@@ -104,11 +121,7 @@ class MovieTableVC: UITableViewController {
         )
     }
     
-    private func setNavigationItemTitle() {
-        self.navigationItem.title = movieOrderType.navigationItemTitle
-    }
-    
-    // MARK: - Fetch Mrthod
+    // MARK: - Fetch Method
     
     private func fetchMovies() {
         self.indicator.startAnimating()
@@ -134,7 +147,6 @@ class MovieTableVC: UITableViewController {
             self.movies = movies
         }
     }
-    
     
     // MARK: - UITableViewDataSource
     

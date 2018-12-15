@@ -48,4 +48,15 @@ enum MovieOrderType: Int {
             break
         }
     }
+    
+    mutating func change(to newMovieOrderType: MovieOrderType) {
+        switch newMovieOrderType {
+        case .reservation:
+            self = .reservation
+        case .curation:
+            self = .curation
+        case .openingDate:
+            self = .openingDate
+        }
+    }
 }

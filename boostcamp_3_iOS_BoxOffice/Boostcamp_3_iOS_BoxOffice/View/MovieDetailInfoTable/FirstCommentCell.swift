@@ -12,7 +12,7 @@ class FirstCommentCell: UITableViewCell {
     
     @IBOutlet private weak var addCommentButton: UIButton!
     @IBOutlet private weak var writerName: UILabel!
-//    @IBOutlet private weak var userRating: FloatRatingView!
+    @IBOutlet private weak var userRating: UIFloatRatingView!
     @IBOutlet private weak var timestamp: UILabel!
     @IBOutlet private weak var contents: UITextView!
     
@@ -25,7 +25,7 @@ class FirstCommentCell: UITableViewCell {
                 return
             }
             self.writerName.text = comment.writer
-            //  self.userRating.rating = (comment.rating*5) / 10
+            self.userRating.rating = comment.rating
             self.timestamp.text = comment.timestamp.date
             self.contents.text = comment.contents
         }

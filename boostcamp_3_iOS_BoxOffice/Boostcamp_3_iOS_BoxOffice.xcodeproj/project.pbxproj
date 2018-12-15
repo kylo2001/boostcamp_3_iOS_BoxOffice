@@ -24,7 +24,7 @@
 		DB5EEC7021BC054E00659AB5 /* MovieDetailInfoTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC6F21BC054E00659AB5 /* MovieDetailInfoTableVC.swift */; };
 		DB5EEC7221BC073200659AB5 /* FullScreenImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC7121BC073200659AB5 /* FullScreenImage.swift */; };
 		DB5EEC7421BC324C00659AB5 /* Double + DateString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC7321BC324C00659AB5 /* Double + DateString.swift */; };
-		DB66B6A321BCE7C000BCB45E /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A221BCE7C000BCB45E /* FloatRatingView.swift */; };
+		DB66B6A321BCE7C000BCB45E /* UIFloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A221BCE7C000BCB45E /* UIFloatRatingView.swift */; };
 		DB66B6A521BE140A00BCB45E /* UITableViewController + RegisterCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A421BE140A00BCB45E /* UITableViewController + RegisterCells.swift */; };
 		DB66B6A721BE196600BCB45E /* UICollectionViewController + RegisterCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A621BE196600BCB45E /* UICollectionViewController + RegisterCells.swift */; };
 		DB66B6A921BE781300BCB45E /* String + Comma.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB66B6A821BE781300BCB45E /* String + Comma.swift */; };
@@ -45,6 +45,8 @@
 		DB78915721BB15350063DCE5 /* UIViewController + Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78915621BB15350063DCE5 /* UIViewController + Alert.swift */; };
 		DB78915921BB21820063DCE5 /* MovieCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */; };
 		DB78915B21BB22DE0063DCE5 /* MovieCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */; };
+		DBCC4D5A21C4D98F006B404F /* UITabBarController + .swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */; };
+		DBCC4D5E21C50037006B404F /* UINavigationController + RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,7 +67,7 @@
 		DB5EEC6F21BC054E00659AB5 /* MovieDetailInfoTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailInfoTableVC.swift; sourceTree = "<group>"; };
 		DB5EEC7121BC073200659AB5 /* FullScreenImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImage.swift; sourceTree = "<group>"; };
 		DB5EEC7321BC324C00659AB5 /* Double + DateString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + DateString.swift"; sourceTree = "<group>"; };
-		DB66B6A221BCE7C000BCB45E /* FloatRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		DB66B6A221BCE7C000BCB45E /* UIFloatRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFloatRatingView.swift; sourceTree = "<group>"; };
 		DB66B6A421BE140A00BCB45E /* UITableViewController + RegisterCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController + RegisterCells.swift"; sourceTree = "<group>"; };
 		DB66B6A621BE196600BCB45E /* UICollectionViewController + RegisterCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewController + RegisterCells.swift"; sourceTree = "<group>"; };
 		DB66B6A821BE781300BCB45E /* String + Comma.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Comma.swift"; sourceTree = "<group>"; };
@@ -88,6 +90,8 @@
 		DB78915621BB15350063DCE5 /* UIViewController + Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Alert.swift"; sourceTree = "<group>"; };
 		DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCollectionCell.xib; sourceTree = "<group>"; };
 		DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionCell.swift; sourceTree = "<group>"; };
+		DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController + .swift"; sourceTree = "<group>"; };
+		DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController + RootViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,13 +105,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DB44628A21BFF5E0002FFF7E /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		DB5EEC5A21BBBBD900659AB5 /* MovieDetailInfoTable */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,7 +143,7 @@
 		DB66B6A121BCE78400BCB45E /* FloatRatingView */ = {
 			isa = PBXGroup;
 			children = (
-				DB66B6A221BCE7C000BCB45E /* FloatRatingView.swift */,
+				DB66B6A221BCE7C000BCB45E /* UIFloatRatingView.swift */,
 			);
 			path = FloatRatingView;
 			sourceTree = "<group>";
@@ -170,7 +167,6 @@
 		DB78911D21BACE2E0063DCE5 /* Boostcamp_3_iOS_BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
-				DB44628A21BFF5E0002FFF7E /* New Group */,
 				DB78915021BB0D670063DCE5 /* Extension */,
 				DB78913421BAED570063DCE5 /* Model */,
 				DB78914921BB091A0063DCE5 /* View */,
@@ -243,6 +239,8 @@
 				DB44628421BFA935002FFF7E /* UIViewController + ActionSheet.swift */,
 				DB66B6A421BE140A00BCB45E /* UITableViewController + RegisterCells.swift */,
 				DB66B6A621BE196600BCB45E /* UICollectionViewController + RegisterCells.swift */,
+				DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */,
+				DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */,
 				DB66B6A821BE781300BCB45E /* String + Comma.swift */,
 				DB44628821BFB0C4002FFF7E /* String + Capitalize.swift */,
 				DB5EEC7321BC324C00659AB5 /* Double + DateString.swift */,
@@ -339,10 +337,11 @@
 			files = (
 				DB66B6A721BE196600BCB45E /* UICollectionViewController + RegisterCells.swift in Sources */,
 				DB78913B21BAF29F0063DCE5 /* Movies.swift in Sources */,
+				DBCC4D5E21C50037006B404F /* UINavigationController + RootViewController.swift in Sources */,
 				DB78914421BB06590063DCE5 /* MainTabBarController.swift in Sources */,
 				DB5EEC6C21BBC10E00659AB5 /* FirstCommentCell.swift in Sources */,
 				DB5EEC7021BC054E00659AB5 /* MovieDetailInfoTableVC.swift in Sources */,
-				DB66B6A321BCE7C000BCB45E /* FloatRatingView.swift in Sources */,
+				DB66B6A321BCE7C000BCB45E /* UIFloatRatingView.swift in Sources */,
 				DB78913F21BAF7020063DCE5 /* Comment.swift in Sources */,
 				DB78913621BAEE050063DCE5 /* Movie.swift in Sources */,
 				DB44628521BFA935002FFF7E /* UIViewController + ActionSheet.swift in Sources */,
@@ -359,6 +358,7 @@
 				DB5EEC6821BBC0FB00659AB5 /* SynopsisCell.swift in Sources */,
 				DB5EEC6E21BBC11600659AB5 /* CommentCell.swift in Sources */,
 				DB78914821BB07350063DCE5 /* MovieTableVC.swift in Sources */,
+				DBCC4D5A21C4D98F006B404F /* UITabBarController + .swift in Sources */,
 				DB78913D21BAF2AC0063DCE5 /* Comments.swift in Sources */,
 				DB5EEC6621BBC0F300659AB5 /* MainInfoCell.swift in Sources */,
 				DB78914F21BB0CA30063DCE5 /* MovieTableCell.swift in Sources */,
