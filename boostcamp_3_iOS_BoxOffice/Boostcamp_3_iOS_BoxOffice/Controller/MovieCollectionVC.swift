@@ -12,14 +12,7 @@ class MovieCollectionVC: UICollectionViewController {
     
     // MARK: - Properties
     
-    private var movieOrderType: MovieOrderType = .reservation {
-        didSet {
-            DispatchQueue.main.async {
-                self.setNavigationItemTitle()
-                self.collectionView.reloadData()
-            }
-        }
-    }
+    public var movieOrderType: MovieOrderType = .reservation
     
     private weak var indicator: UIActivityIndicatorView!
     
@@ -34,23 +27,12 @@ class MovieCollectionVC: UICollectionViewController {
         }
     }
     
-    // MARK: - Initialize Methods
-    
-    override init(collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(collectionViewLayout: layout)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initIndicator()
         initCollectionView()
-        initNotification()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -59,6 +41,14 @@ class MovieCollectionVC: UICollectionViewController {
     }
     
     // MARK: - Initialization Methods
+    
+    override init(collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(collectionViewLayout: layout)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func initIndicator() {
         let indicator = UIActivityIndicatorView()
@@ -91,13 +81,6 @@ class MovieCollectionVC: UICollectionViewController {
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
-    private func initNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(setMovieOrderType(_:)),
-                                               name: NSNotification.Name(rawValue: "MovieOrderType"),
-                                               object: nil)
-    }
-    
     // MARK: - Setup Method
     
     private func setNavigationItemTitle() {
@@ -111,11 +94,18 @@ class MovieCollectionVC: UICollectionViewController {
         
         handler = { (action: UIAlertAction) in
             if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
-                //                self.movieOrderType.change(to: newOrderType)
-                //                self.fetchMovies()
+                self.movieOrderType.change(to: newOrderType)
+                self.fetchMovies()
                 
-                // Notification에 object와 dictionary 형태의 userInfo를 같이 실어서 보낸다.
-                NotificationCenter.default.post(name: Notification.Name("MovieOrderType"), object: nil, userInfo: ["movieOrderType": self.movieOrderType])
+                guard let destination = self.tabBarController?.viewControllers?[0] as? UINavigationController else {
+                    return
+                }
+                
+                guard let movieTableVC = destination.rootViewController as? MovieTableVC else {
+                    return
+                }
+                
+                movieTableVC.movieOrderType = self.movieOrderType
             }
         }
         
@@ -125,15 +115,6 @@ class MovieCollectionVC: UICollectionViewController {
             actions: ["예매율", "큐레이션", "개봉일"],
             handler: handler
         )
-    }
-    
-    @objc private func setMovieOrderType(_ notification: Notification) {
-        guard let newOrderType: MovieOrderType = notification.userInfo?["movieOrderType"] as? MovieOrderType else { return }
-        print("newOrderType :", newOrderType)
-        
-        if self.movieOrderType != newOrderType {
-            self.movieOrderType.change(to: newOrderType)
-        }
     }
     
     // MARK: - Fetch Method
@@ -178,8 +159,6 @@ class MovieCollectionVC: UICollectionViewController {
         return cell
     }
     
-    
-    
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -191,7 +170,7 @@ class MovieCollectionVC: UICollectionViewController {
         self.navigationController?.pushViewController(movieDetailInfoTableVC, animated: true)
     }
     
-    // MARK: - 
+    // MARK: - UIContentContainer Instance Method
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         DispatchQueue.main.async {

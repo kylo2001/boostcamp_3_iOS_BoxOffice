@@ -12,14 +12,7 @@ class MovieTableVC: UITableViewController {
 
     // MARK: - Properties
     
-    private var movieOrderType: MovieOrderType = .reservation {
-        didSet {
-            DispatchQueue.main.async {
-                self.setNavigationItemTitle()
-                self.tableView.reloadData()
-            }
-        }
-    }
+    public var movieOrderType: MovieOrderType = .reservation
     
     private weak var indicator: UIActivityIndicatorView!
     
@@ -42,7 +35,6 @@ class MovieTableVC: UITableViewController {
         initIndicator()
         initRefreshControl()
         initNavigationBar()
-        initNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,13 +81,6 @@ class MovieTableVC: UITableViewController {
         navigationItem.rightBarButtonItems = [movieOrderSettingButton]
     }
     
-    private func initNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(setMovieOrderType(_:)),
-                                               name: NSNotification.Name(rawValue: "MovieOrderType"),
-                                               object: nil)
-    }
-    
     // MARK: - Setup Method
     
     private func setNavigationItemTitle() {
@@ -113,11 +98,18 @@ class MovieTableVC: UITableViewController {
         
         handler = { (action: UIAlertAction) in
             if let newOrderType = action.title, newOrderType != self.movieOrderType.actionSheetTitle {
-                //                self.movieOrderType.change(to: newOrderType)
-                //                self.fetchMovies()
+                self.movieOrderType.change(to: newOrderType)
+                self.fetchMovies()
                 
-                // Notification에 object와 dictionary 형태의 userInfo를 같이 실어서 보낸다.
-                NotificationCenter.default.post(name: Notification.Name("MovieOrderType"), object: nil, userInfo: ["movieOrderType": self.movieOrderType])
+                guard let destination = self.tabBarController?.viewControllers?[1] as? UINavigationController else {
+                    return
+                }
+                
+                guard let movieCollectionVC = destination.rootViewController as? MovieCollectionVC else {
+                    return
+                }
+                
+                movieCollectionVC.movieOrderType = self.movieOrderType
             }
         }
         
@@ -127,15 +119,6 @@ class MovieTableVC: UITableViewController {
             actions: ["예매율", "큐레이션", "개봉일"],
             handler: handler
         )
-    }
-    
-    @objc private func setMovieOrderType(_ notification: Notification) {
-        guard let newOrderType: MovieOrderType = notification.userInfo?["movieOrderType"] as? MovieOrderType else { return }
-        print("newOrderType :", newOrderType)
-        
-        if self.movieOrderType != newOrderType {
-            self.movieOrderType.change(to: newOrderType)
-        }
     }
     
     // MARK: - Fetch Method
@@ -164,7 +147,6 @@ class MovieTableVC: UITableViewController {
             self.movies = movies
         }
     }
-    
     
     // MARK: - UITableViewDataSource
     
