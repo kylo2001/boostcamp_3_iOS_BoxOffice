@@ -10,6 +10,8 @@ import UIKit
 
 class SynopsisCell: UITableViewCell {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var synopsisTextView: UITextView!
     
     var movie: Movie? {
@@ -18,6 +20,7 @@ class SynopsisCell: UITableViewCell {
                 synopsisTextView.text = ""
                 return
             }
+            
             self.synopsisTextView.text = movie.synopsis
         }
     }

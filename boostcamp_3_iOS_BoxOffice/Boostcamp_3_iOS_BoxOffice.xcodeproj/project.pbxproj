@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DB44628521BFA935002FFF7E /* UIViewController + ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB44628421BFA935002FFF7E /* UIViewController + ActionSheet.swift */; };
-		DB44628921BFB0C4002FFF7E /* String + Capitalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB44628821BFB0C4002FFF7E /* String + Capitalize.swift */; };
 		DB44628C21BFF893002FFF7E /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB44628B21BFF893002FFF7E /* ImageCache.swift */; };
 		DB5EEC5721BBB4CA00659AB5 /* MovieOrderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EEC5621BBB4CA00659AB5 /* MovieOrderType.swift */; };
 		DB5EEC5921BBBB0000659AB5 /* MainInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5EEC5821BBBB0000659AB5 /* MainInfoCell.xib */; };
@@ -45,13 +44,11 @@
 		DB78915721BB15350063DCE5 /* UIViewController + Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78915621BB15350063DCE5 /* UIViewController + Alert.swift */; };
 		DB78915921BB21820063DCE5 /* MovieCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */; };
 		DB78915B21BB22DE0063DCE5 /* MovieCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */; };
-		DBCC4D5A21C4D98F006B404F /* UITabBarController + .swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */; };
 		DBCC4D5E21C50037006B404F /* UINavigationController + RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DB44628421BFA935002FFF7E /* UIViewController + ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + ActionSheet.swift"; sourceTree = "<group>"; };
-		DB44628821BFB0C4002FFF7E /* String + Capitalize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Capitalize.swift"; sourceTree = "<group>"; };
 		DB44628B21BFF893002FFF7E /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		DB5EEC5621BBB4CA00659AB5 /* MovieOrderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieOrderType.swift; sourceTree = "<group>"; };
 		DB5EEC5821BBBB0000659AB5 /* MainInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainInfoCell.xib; sourceTree = "<group>"; };
@@ -90,7 +87,6 @@
 		DB78915621BB15350063DCE5 /* UIViewController + Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Alert.swift"; sourceTree = "<group>"; };
 		DB78915821BB21820063DCE5 /* MovieCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCollectionCell.xib; sourceTree = "<group>"; };
 		DB78915A21BB22DE0063DCE5 /* MovieCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionCell.swift; sourceTree = "<group>"; };
-		DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController + .swift"; sourceTree = "<group>"; };
 		DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController + RootViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,9 +236,7 @@
 				DB66B6A421BE140A00BCB45E /* UITableViewController + RegisterCells.swift */,
 				DB66B6A621BE196600BCB45E /* UICollectionViewController + RegisterCells.swift */,
 				DBCC4D5D21C50037006B404F /* UINavigationController + RootViewController.swift */,
-				DBCC4D5921C4D98F006B404F /* UITabBarController + .swift */,
 				DB66B6A821BE781300BCB45E /* String + Comma.swift */,
-				DB44628821BFB0C4002FFF7E /* String + Capitalize.swift */,
 				DB5EEC7321BC324C00659AB5 /* Double + DateString.swift */,
 			);
 			path = Extension;
@@ -347,7 +341,6 @@
 				DB44628521BFA935002FFF7E /* UIViewController + ActionSheet.swift in Sources */,
 				DB5EEC7421BC324C00659AB5 /* Double + DateString.swift in Sources */,
 				DB78911F21BACE2E0063DCE5 /* AppDelegate.swift in Sources */,
-				DB44628921BFB0C4002FFF7E /* String + Capitalize.swift in Sources */,
 				DB78915521BB11680063DCE5 /* NetworkManager.swift in Sources */,
 				DB5EEC5721BBB4CA00659AB5 /* MovieOrderType.swift in Sources */,
 				DB66B6A921BE781300BCB45E /* String + Comma.swift in Sources */,
@@ -358,7 +351,6 @@
 				DB5EEC6821BBC0FB00659AB5 /* SynopsisCell.swift in Sources */,
 				DB5EEC6E21BBC11600659AB5 /* CommentCell.swift in Sources */,
 				DB78914821BB07350063DCE5 /* MovieTableVC.swift in Sources */,
-				DBCC4D5A21C4D98F006B404F /* UITabBarController + .swift in Sources */,
 				DB78913D21BAF2AC0063DCE5 /* Comments.swift in Sources */,
 				DB5EEC6621BBC0F300659AB5 /* MainInfoCell.swift in Sources */,
 				DB78914F21BB0CA30063DCE5 /* MovieTableCell.swift in Sources */,

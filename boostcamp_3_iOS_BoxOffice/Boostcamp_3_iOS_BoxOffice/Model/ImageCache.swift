@@ -10,23 +10,9 @@ import UIKit
 
 struct ImageCache {
     
-    // MARK: - Properties
+    // MARK: - Property
     
     static private let memory = NSCache<NSNumber, UIImage>()
-    
-    static private func isCached(from urlString: String) -> UIImage? {
-        let key = urlString.hash as NSNumber
-    
-        guard let image = memory.object(forKey: key) else {
-            if let imageURL = getDirectory(forKey: key) {
-                return UIImage(contentsOfFile: imageURL.path)
-            }
-            
-            return nil
-        }
-
-        return image
-    }
     
     // MARK: - Methods
     
@@ -53,6 +39,20 @@ struct ImageCache {
         }
     }
     
+    static private func isCached(from urlString: String) -> UIImage? {
+        let key = urlString.hash as NSNumber
+        
+        guard let image = memory.object(forKey: key) else {
+            if let imageURL = getDirectory(forKey: key) {
+                return UIImage(contentsOfFile: imageURL.path)
+            }
+            
+            return nil
+        }
+        
+        return image
+    }
+    
     static private func store(_ image: UIImage, forKey key: NSNumber) {
         memory.setObject(image, forKey: key)
         guard let dataPath = getDirectory(forKey: key) else { return }
@@ -66,16 +66,12 @@ struct ImageCache {
     }
     
     static private func getDirectory(forKey key: NSNumber) -> URL? {
-        
-        // 파일 매니저 생성
         let fileManager = FileManager()
-        
-        // document 디렉토리의 경로 저장
+    
         guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return nil
         }
         
-        // 해당 디렉토리 이름 지정
         let dataPath = documentsDirectory.appendingPathComponent(key.stringValue)
         
         return dataPath

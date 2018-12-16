@@ -71,6 +71,7 @@ class MovieTableVC: UITableViewController {
     
     private func initRefreshControl() {
         self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Networking...")
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }
@@ -101,11 +102,11 @@ class MovieTableVC: UITableViewController {
                 self.movieOrderType.change(to: newOrderType)
                 self.fetchMovies()
                 
-                guard let destination = self.tabBarController?.viewControllers?[1] as? UINavigationController else {
+                guard let secondTabBar = self.tabBarController?.viewControllers?[1] as? UINavigationController else {
                     return
                 }
                 
-                guard let movieCollectionVC = destination.rootViewController as? MovieCollectionVC else {
+                guard let movieCollectionVC = secondTabBar.rootViewController as? MovieCollectionVC else {
                     return
                 }
                 

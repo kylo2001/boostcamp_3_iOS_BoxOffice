@@ -10,6 +10,8 @@ import UIKit
 
 class FirstCommentCell: UITableViewCell {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var addCommentButton: UIButton!
     @IBOutlet private weak var writerName: UILabel!
     @IBOutlet private weak var userRating: UIFloatRatingView!
@@ -24,6 +26,7 @@ class FirstCommentCell: UITableViewCell {
                 contents.text = ""
                 return
             }
+            
             self.writerName.text = comment.writer
             self.userRating.rating = comment.rating
             self.timestamp.text = comment.timestamp.date

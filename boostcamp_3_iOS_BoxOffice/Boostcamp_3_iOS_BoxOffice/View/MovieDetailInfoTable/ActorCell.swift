@@ -10,6 +10,8 @@ import UIKit
 
 class ActorCell: UITableViewCell {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var directorName: UILabel!
     @IBOutlet private weak var actorName: UILabel!
     

@@ -13,6 +13,7 @@ enum MovieOrderType: Int {
     case curation = 1
     case openingDate = 2
     
+    // MARK: - Properties
     
     var navigationItemTitle: String {
         switch self {
@@ -36,6 +37,8 @@ enum MovieOrderType: Int {
         }
     }
     
+    // MARK: - Method
+    
     mutating func change(to newMovieOrderType: String) {
         switch newMovieOrderType {
         case "예매율":
@@ -46,17 +49,6 @@ enum MovieOrderType: Int {
             self = .openingDate
         default:
             break
-        }
-    }
-    
-    mutating func change(to newMovieOrderType: MovieOrderType) {
-        switch newMovieOrderType {
-        case .reservation:
-            self = .reservation
-        case .curation:
-            self = .curation
-        case .openingDate:
-            self = .openingDate
         }
     }
 }

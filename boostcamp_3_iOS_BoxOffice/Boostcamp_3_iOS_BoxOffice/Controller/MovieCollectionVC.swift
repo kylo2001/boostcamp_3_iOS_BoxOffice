@@ -16,6 +16,8 @@ class MovieCollectionVC: UICollectionViewController {
     
     private weak var indicator: UIActivityIndicatorView!
     
+    private var refreshControl = UIRefreshControl()
+    
     private let cellId: String = "movieCollectionCell"
     
     private var movies: [Movie] = [] {
@@ -33,6 +35,7 @@ class MovieCollectionVC: UICollectionViewController {
         super.viewDidLoad()
         initIndicator()
         initCollectionView()
+        initRefreshControl()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -81,6 +84,13 @@ class MovieCollectionVC: UICollectionViewController {
         navigationItem.rightBarButtonItems = [sortingButton]
     }
     
+    private func initRefreshControl() {
+        collectionView.addSubview(refreshControl)
+        refreshControl.attributedTitle = NSAttributedString(string: "Networking...")
+        refreshControl.tintColor = .blue
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    
     // MARK: - Setup Method
     
     private func setNavigationItemTitle() {
@@ -88,6 +98,10 @@ class MovieCollectionVC: UICollectionViewController {
     }
     
     // MARK: - Helper Methods
+    
+    @objc private func handleRefreshControl() {
+        fetchMovies()
+    }
     
     @objc private func touchUpMovieOrderSettingButton(_ sender: UIBarButtonItem) {
         let handler: (UIAlertAction) -> Void
@@ -97,11 +111,11 @@ class MovieCollectionVC: UICollectionViewController {
                 self.movieOrderType.change(to: newOrderType)
                 self.fetchMovies()
                 
-                guard let destination = self.tabBarController?.viewControllers?[0] as? UINavigationController else {
+                guard let firstTabBar = self.tabBarController?.viewControllers?[0] as? UINavigationController else {
                     return
                 }
                 
-                guard let movieTableVC = destination.rootViewController as? MovieTableVC else {
+                guard let movieTableVC = firstTabBar.rootViewController as? MovieTableVC else {
                     return
                 }
                 
@@ -127,11 +141,13 @@ class MovieCollectionVC: UICollectionViewController {
             DispatchQueue.main.async {
                 self.indicator.stopAnimating()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.refreshControl.endRefreshing()
+                self.refreshControl.isHidden = true
             }
             
             guard let movies = data else {
                 DispatchQueue.main.async {
-                    self.alert("네트워크가 좋지 않습니다..\n'Table'탭으로 이동하고 아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
                         self.navigationItem.title = ""
                     }
                 }
