@@ -71,6 +71,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private func initRefreshControl() {
         self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Networking...")
         self.refreshControl?.tintColor = .blue
         self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
     }

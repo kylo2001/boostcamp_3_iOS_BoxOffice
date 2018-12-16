@@ -9,6 +9,9 @@
 import UIKit
 
 class MovieTableCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet private weak var movieThumbImage: UIImageView!
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet private weak var movieGradeImage: UIImageView!
@@ -42,6 +45,8 @@ class MovieTableCell: UITableViewCell {
             movieGradeImage.image = UIImage(named: movie.movieGradeText)
         }
     }
+    
+    // MARK: - Lifecycle Method
     
     override func prepareForReuse() {
         super.prepareForReuse()

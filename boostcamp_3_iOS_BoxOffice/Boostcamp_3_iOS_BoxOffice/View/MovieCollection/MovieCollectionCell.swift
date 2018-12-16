@@ -9,13 +9,14 @@
 import UIKit
 
 class MovieCollectionCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet private weak var movieThumbImage: UIImageView!
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet private weak var movieGradeImage: UIImageView!
     @IBOutlet private weak var movieSimpleInfo: UILabel!
     @IBOutlet private weak var movieOpeningDate: UILabel!
-    
-    var cache: NSCache = NSCache<NSString, UIImage>()
     
     var movie: Movie? {
         didSet {

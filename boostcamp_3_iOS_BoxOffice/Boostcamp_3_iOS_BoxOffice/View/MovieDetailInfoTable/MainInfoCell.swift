@@ -10,18 +10,18 @@ import UIKit
 
 class MainInfoCell: UITableViewCell {
     
-    @IBOutlet weak var movieThumbImage: UIImageView!
-    @IBOutlet weak var movieTitle: UILabel!
-    @IBOutlet weak var movieGradeImage: UIImageView!
-    @IBOutlet weak var genreDuration: UILabel!
-    @IBOutlet weak var movieOpeningDate: UILabel!
-    @IBOutlet weak var reservationRate: UILabel!
-    @IBOutlet weak var userRatingLabel: UILabel!
-    @IBOutlet weak var audience: UILabel!
+    // MARK: - Properties
+    
+    @IBOutlet public weak var movieThumbImage: UIImageView!
+    @IBOutlet private weak var movieTitle: UILabel!
+    @IBOutlet private weak var movieGradeImage: UIImageView!
+    @IBOutlet private weak var genreDuration: UILabel!
+    @IBOutlet private weak var movieOpeningDate: UILabel!
+    @IBOutlet private weak var reservationRate: UILabel!
+    @IBOutlet private weak var userRatingLabel: UILabel!
+    @IBOutlet private weak var audience: UILabel!
     
     @IBOutlet private weak var userRatingView: UIFloatRatingView!
-    
-    var cache: NSCache = NSCache<NSString, UIImage>()
     
     var movie: Movie? {
         didSet {
