@@ -39,7 +39,7 @@ class MovieCollectionVC: UICollectionViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
         fetchMovies()
     }
     

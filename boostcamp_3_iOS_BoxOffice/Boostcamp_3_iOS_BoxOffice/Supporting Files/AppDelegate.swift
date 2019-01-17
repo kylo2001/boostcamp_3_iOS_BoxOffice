@@ -13,22 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
     
         UITabBar.appearance().tintColor = UIColor.white
         UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
         UITabBar.appearance().barTintColor = #colorLiteral(red: 0.336404711, green: 0.4183694124, blue: 0.7670456767, alpha: 1)
-        UITabBar.appearance().isTranslucent = true
         
-        
-        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.336404711, green: 0.4183694124, blue: 0.7670456767, alpha: 1)
         UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.336404711, green: 0.4183694124, blue: 0.7670456767, alpha: 1)
         
         window = UIWindow()
-        window?.makeKeyAndVisible()
         window?.rootViewController = MainTabBarController()
+        window?.makeKeyAndVisible()
         
         return true
     }

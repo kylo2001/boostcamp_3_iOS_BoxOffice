@@ -26,15 +26,13 @@ struct ImageCache {
                     return
                 }
                 
-                let fetchedImage = UIImage(data: data)
-                
-                guard let image = fetchedImage else {
+                guard let fetchedImage = UIImage(data: data) else {
                     completion(#imageLiteral(resourceName: "imageNotFound"))
                     return
                 }
                 
-                store(image, forKey: urlString.hash as NSNumber)
-                completion(image)
+                store(fetchedImage, forKey: urlString.hash as NSNumber)
+                completion(fetchedImage)
             }
         }
     }
