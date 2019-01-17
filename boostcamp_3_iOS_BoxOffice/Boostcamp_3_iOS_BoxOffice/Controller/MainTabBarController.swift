@@ -14,12 +14,12 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        InitViewControllers()
+        initViewControllers()
     }
     
     // MARK: - Initialization Methods
     
-    private func InitViewControllers() {
+    private func initViewControllers() {
         let flowLayout = UICollectionViewFlowLayout()
         
         viewControllers = [
@@ -32,8 +32,6 @@ class MainTabBarController: UITabBarController {
     
     private func generateNavigationController(for rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
-        rootViewController.navigationItem.title = title
-        
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
 

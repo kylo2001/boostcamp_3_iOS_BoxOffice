@@ -25,7 +25,6 @@ class FullScreenImage: UIViewController, UIGestureRecognizerDelegate {
         return imageView
     }()
     
-    
     // MARK: - Lifecycle Methods
     
     override func viewDidLoad() {
