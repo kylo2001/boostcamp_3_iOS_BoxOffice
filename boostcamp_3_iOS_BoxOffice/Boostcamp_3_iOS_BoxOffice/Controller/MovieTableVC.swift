@@ -18,6 +18,10 @@ class MovieTableVC: UITableViewController {
     
     private let cellId: String = "movieTableCell"
     
+    struct Style {
+        static let tableViewCellHeight: CGFloat = 160.0
+    }
+    
     private var movies: [Movie] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -170,7 +174,7 @@ class MovieTableVC: UITableViewController {
     // MARK: - UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return Style.tableViewCellHeight
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
