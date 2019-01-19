@@ -205,15 +205,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             return UITableViewCell()
         }
         
-        guard let comments = self.comments else {
-            return UITableViewCell()
-        }
-        
-        if comments.count == 0 {
-            return UITableViewCell()
-        }
-        
-        let comment = comments[indexPath.row]
+
         
         switch indexPath.section {
         case 0:
@@ -248,6 +240,16 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             
             return cell
         case 3:
+            guard let comments = self.comments else {
+                return UITableViewCell()
+            }
+            
+            if comments.count == 0 {
+                return UITableViewCell()
+            }
+            
+            let comment = comments[indexPath.row]
+            
             if indexPath.row == 0 {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "firstCommentCell", for: indexPath) as? FirstCommentCell else {
                     return UITableViewCell()
