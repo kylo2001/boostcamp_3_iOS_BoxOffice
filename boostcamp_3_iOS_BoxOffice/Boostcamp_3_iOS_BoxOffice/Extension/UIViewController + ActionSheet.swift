@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    func actionSheet(title: String? = nil, message: String? = nil, actions: [String], handler: ((UIAlertAction)->Void)? = nil) {
+    func addActionSheet(title: String? = nil, message: String? = nil, actions: [String], handler: ((UIAlertAction)->Void)? = nil) {
         let alertController: UIAlertController
         alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         

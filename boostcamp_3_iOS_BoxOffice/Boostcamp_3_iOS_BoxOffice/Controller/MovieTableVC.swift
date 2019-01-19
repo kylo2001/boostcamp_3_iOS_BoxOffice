@@ -114,7 +114,7 @@ class MovieTableVC: UITableViewController {
             }
         }
         
-        self.actionSheet(
+        self.addActionSheet(
             title: "정렬방식 선택",
             message: "영화를 어떤 순서로 정렬할까요?",
             actions: ["예매율", "큐레이션", "개봉일"],
