@@ -142,7 +142,7 @@ class MovieTableVC: UITableViewController {
             
             guard let movies = response else {
                 DispatchQueue.main.async {
-                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                    self.addAlert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
                         self.navigationItem.title = ""
                     }
                 }
