@@ -18,6 +18,10 @@ class MovieTableVC: UITableViewController {
     
     private let cellId: String = "movieTableCell"
     
+    struct Style {
+        static let tableViewCellHeight: CGFloat = 160.0
+    }
+    
     private var movies: [Movie] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -114,7 +118,7 @@ class MovieTableVC: UITableViewController {
             }
         }
         
-        self.actionSheet(
+        self.addActionSheet(
             title: "정렬방식 선택",
             message: "영화를 어떤 순서로 정렬할까요?",
             actions: ["예매율", "큐레이션", "개봉일"],
@@ -138,7 +142,7 @@ class MovieTableVC: UITableViewController {
             
             guard let movies = response else {
                 DispatchQueue.main.async {
-                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
+                    self.addAlert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.") {
                         self.navigationItem.title = ""
                     }
                 }
@@ -170,7 +174,7 @@ class MovieTableVC: UITableViewController {
     // MARK: - UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return Style.tableViewCellHeight
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
