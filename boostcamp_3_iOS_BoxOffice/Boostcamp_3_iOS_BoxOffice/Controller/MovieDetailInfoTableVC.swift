@@ -16,6 +16,14 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private weak var indicator: UIActivityIndicatorView!
     
+    struct Const {
+        static let mainInfoCell = "mainInfoCell"
+        static let synopsisCell = "synopsisCell"
+        static let actorCell = "actorCell"
+        static let firstCommentCell = "firstCommentCell"
+        static let commentCell = "commentCell"
+    }
+    
     private var movie: Movie? {
         didSet {
             DispatchQueue.main.async {
@@ -107,7 +115,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private func fetchMovie() {
         guard let movieId = movieId else {
-            self.alert("영화 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+            self.addAlert("영화 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
                 self.navigationController?.popViewController(animated: true)
             }
             return
@@ -127,7 +135,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             guard let movie = data else {
                 DispatchQueue.main.async {
                     self.movie = nil
-                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
+                    self.addAlert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
                 }
                 return
             }
@@ -143,7 +151,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
     
     private func fetchComments() {
         guard let movieId = movieId else {
-            self.alert("한줄평 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
+            self.addAlert("한줄평 정보를 가져오지 못했습니다.\n다시 시도해주세요.") {
                 self.navigationController?.popViewController(animated: true)
             }
             return
@@ -163,7 +171,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             guard let comments = data else {
                 DispatchQueue.main.async {
                     self.comments = nil
-                    self.alert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
+                    self.addAlert("네트워크가 좋지 않습니다..\n아래 방향으로 스와이프를 하여 새로고침을 해보세요.")
                 }
                 return
             }
@@ -217,7 +225,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
         
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainInfoCell", for: indexPath) as? MainInfoCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.mainInfoCell, for: indexPath) as? MainInfoCell else {
                 return UITableViewCell()
             }
             
@@ -232,7 +240,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             
             return cell
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "synopsisCell", for: indexPath) as? SynopsisCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.synopsisCell, for: indexPath) as? SynopsisCell else {
                 return UITableViewCell()
             }
             
@@ -240,7 +248,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             
             return cell
         case 2:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "actorCell", for: indexPath) as? ActorCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.actorCell, for: indexPath) as? ActorCell else {
                 return UITableViewCell()
             }
             
@@ -249,7 +257,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
             return cell
         case 3:
             if indexPath.row == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "firstCommentCell", for: indexPath) as? FirstCommentCell else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.firstCommentCell, for: indexPath) as? FirstCommentCell else {
                     return UITableViewCell()
                 }
                 
@@ -257,7 +265,7 @@ class MovieDetailInfoTableVC: UITableViewController, UIGestureRecognizerDelegate
                 
                 return cell
             } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as? CommentCell else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.commentCell, for: indexPath) as? CommentCell else {
                     return UITableViewCell()
                 }
                 
