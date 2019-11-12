@@ -41,5 +41,4 @@ extension String {
         }
         return self
     }
-
 }
