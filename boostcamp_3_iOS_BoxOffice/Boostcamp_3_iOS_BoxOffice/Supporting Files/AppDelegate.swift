@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.336404711, green: 0.4183694124, blue: 0.7670456767, alpha: 1)
         
         window = UIWindow()
-        window?.rootViewController = MainTabBarController()
+        let viewController = MainTabBarController()
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
         
         return true
